@@ -1,4 +1,4 @@
-inline CheckerBoard *
+CheckerBoard *
 redmanmove(int c, CheckerBoard *b, CheckerBoard *m)
 {
     switch (c) {
@@ -118,7 +118,7 @@ redmanmove(int c, CheckerBoard *b, CheckerBoard *m)
     }
     return m ;
 }
-inline CheckerBoard *
+CheckerBoard *
 whitemanmove(int c, CheckerBoard *b, CheckerBoard *m)
 {
     switch (c) {
@@ -238,7 +238,7 @@ whitemanmove(int c, CheckerBoard *b, CheckerBoard *m)
     }
     return m ;
 }
-inline CheckerBoard *
+CheckerBoard *
 redkingmove(int c, CheckerBoard *b, CheckerBoard *m)
 {
     switch (c) {
@@ -407,7 +407,7 @@ redkingmove(int c, CheckerBoard *b, CheckerBoard *m)
     }
     return m ;
 }
-inline CheckerBoard *
+CheckerBoard *
 whitekingmove(int c, CheckerBoard *b, CheckerBoard *m)
 {
     switch (c) {
@@ -576,7 +576,7 @@ whitekingmove(int c, CheckerBoard *b, CheckerBoard *m)
     }
     return m ;
 }
-inline CheckerBoard *
+CheckerBoard *
 redmanresolve(int c, CheckerBoard *b, CheckerBoard *m)
 {
     CheckerBoard tmp ;
@@ -717,7 +717,7 @@ redmanresolve(int c, CheckerBoard *b, CheckerBoard *m)
     }
     return m ;
 }
-inline CheckerBoard *
+CheckerBoard *
 redmanjump(int c, CheckerBoard *b, CheckerBoard *m)
 {
     CheckerBoard tmp ;
@@ -825,7 +825,7 @@ redmanjump(int c, CheckerBoard *b, CheckerBoard *m)
     }
     return m ;
 }
-inline CheckerBoard *
+CheckerBoard *
 whitemanresolve(int c, CheckerBoard *b, CheckerBoard *m)
 {
     CheckerBoard tmp ;
@@ -966,7 +966,7 @@ whitemanresolve(int c, CheckerBoard *b, CheckerBoard *m)
     }
     return m ;
 }
-inline CheckerBoard *
+CheckerBoard *
 whitemanjump(int c, CheckerBoard *b, CheckerBoard *m)
 {
     CheckerBoard tmp ;
@@ -1074,7 +1074,7 @@ whitemanjump(int c, CheckerBoard *b, CheckerBoard *m)
     }
     return m ;
 }
-inline CheckerBoard *
+CheckerBoard *
 redkingresolve(int c, CheckerBoard *b, CheckerBoard *m)
 {
     CheckerBoard tmp ;
@@ -1251,7 +1251,7 @@ redkingresolve(int c, CheckerBoard *b, CheckerBoard *m)
     }
     return m ;
 }
-inline CheckerBoard *
+CheckerBoard *
 redkingjump(int c, CheckerBoard *b, CheckerBoard *m)
 {
     CheckerBoard tmp ;
@@ -1395,7 +1395,7 @@ redkingjump(int c, CheckerBoard *b, CheckerBoard *m)
     }
     return m ;
 }
-inline CheckerBoard *
+CheckerBoard *
 whitekingresolve(int c, CheckerBoard *b, CheckerBoard *m)
 {
     CheckerBoard tmp ;
@@ -1572,7 +1572,7 @@ whitekingresolve(int c, CheckerBoard *b, CheckerBoard *m)
     }
     return m ;
 }
-inline CheckerBoard *
+CheckerBoard *
 whitekingjump(int c, CheckerBoard *b, CheckerBoard *m)
 {
     CheckerBoard tmp ;
