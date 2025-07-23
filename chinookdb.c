@@ -30,6 +30,12 @@
  * major overhaul.
  * 
  * 							-- markv
+ * Addendum:
+ * Tue Jul 22 21:32:39 PDT 2025
+ * Many/most of the calls to scanf in this code don't examine their 
+ * return code.  I went ahead and inserted (void) rc ; to prevent the 
+ * warnings, but the code should be written in a tidier fashion. 
+ * But, as I said before, it was gruesome code.
  */
 
 void InitIndex (uint32_t off, uint32_t k, uint32_t n);
@@ -471,10 +477,12 @@ Setup (void)
 {
     int row, col, addr;
     uint32_t mask;
+    int rc ;
     char c;
 
     Locbv[WHITE] = Locbv[BLACK] = Locbv[KINGS] = 0;
-    scanf ("%c", &c);
+    rc = scanf ("%c", &c);
+    (void) rc ;
     for (row = 7; row >= 0; row--) {
         printf ("%d >", row + 1);
         addr = (row >> 1);
@@ -482,7 +490,8 @@ Setup (void)
             addr += 4;
         for (col = 0; col < 4; col++) {
             mask = (1L << addr);
-            scanf ("%c", &c);
+            rc = scanf ("%c", &c);
+            (void) rc ;
             switch (c) {
             case ' ':
             case '.':
@@ -511,8 +520,10 @@ Setup (void)
             }
             addr += 8;
         }
-        if (c != '\n')
-            scanf ("%c", &c);
+        if (c != '\n') {
+            rc = scanf ("%c", &c);
+            (void) rc ;
+        }
         if (c != '\n') {
             printf ("ERROR: illegal setup\n");
             SkipLine ();
@@ -561,9 +572,12 @@ void
 SkipLine (void)
 {
     char c = ' ';
+    int rc ;
 
-    while (c != '\n')
-        scanf ("%c", &c);
+    while (c != '\n') {
+        rc = scanf ("%c", &c);
+        (void) rc ;
+    }
 }
 
 /* Initialize the database data strucures */
@@ -582,6 +596,7 @@ DBInit (void)
     dbbufferptr a;
     DBENTRYPTR ptr;
     int32_t *dbbufptr;
+    int rc ;
 
     /* Initialization 
      * I don't remember why I thought I needed to know what the 
@@ -809,7 +824,8 @@ DBInit (void)
                 ptr->value = CHINOOK_TIE;
             else
                 printf ("ERROR: illegal result %c\n", dtt);
-            fscanf (dbifp, "\n");
+            rc = fscanf (dbifp, "\n");
+            (void) rc ;
             continue;
         }
 
@@ -1915,7 +1931,7 @@ This position is CHINOOK_WIN
 
     for (;;) {
         printf ("*");
-        scanf ("%c", &cmd);
+        (void) scanf ("%c", &cmd);
 
         switch (cmd) {
         case 'b':

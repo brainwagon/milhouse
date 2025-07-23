@@ -31,7 +31,8 @@
 #define MINCACHESIZE 65536
 
 //int initdblookup(char str[256]);
-int db_init(int suggestedMB, char str[256]);
+#define PRINTF_BUFFER_SIZE      (512)
+int db_init(int suggestedMB, char str[PRINTF_BUFFER_SIZE]);
 int db_exit(void);
 int dblookup(POSITION *p,int cl);
 int revert(uint32_t n);

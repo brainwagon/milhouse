@@ -199,7 +199,7 @@ static int parseindexfile (char idxfilename[256], int blockoffset,
 
 
 #ifdef PRELOAD
-static int preload (char out[256]);
+static int preload (char out[PRINTF_BUFFER_SIZE]);
 #endif
 
 #define hiword(x) (((x)&0xFFFF0000)>>16)
@@ -285,6 +285,7 @@ dblookup (POSITION * q, int cl)
 
     uint32_t index;
     int bm, bk, wm, wk, bmrank = 0, wmrank = 0;
+    int rc ;
 
     // next 4 lines for inlined version
     int i;
@@ -609,7 +610,8 @@ dblookup (POSITION * q, int cl)
                (blocknumber + dbpointer->firstblock) * 1024, SEEK_SET);
         // and read it
         //i = fread(diskblock,1024,1,dbfp[dbpointer->fp]);
-        fread (diskblock, 1024, 1, dbfp[dbpointer->fp]);
+        rc = fread (diskblock, 1024, 1, dbfp[dbpointer->fp]);
+        (void) rc ;
 
 #ifdef PRINT
         printf ("\nblock with ID %i, loaded to address %i", uniqueblockid,
@@ -875,8 +877,7 @@ db_exit (void)
 }
 
 int
-db_init (int suggestedMB, char out[256])
-        // was int initdblookup(char out[256])
+db_init (int suggestedMB, char out[PRINTF_BUFFER_SIZE])
 {
     // returns the number of dbpieces that can be looked up, i.e. the largest db found
     // parameters: suggestedMB which is what dblookup will allocate if possible
@@ -1302,7 +1303,7 @@ db_init (int suggestedMB, char out[256])
 
 #ifdef PRELOAD
 static int
-preload (char out[256])
+preload (char out[PRINTF_BUFFER_SIZE])
 {
     // preloads the entire db or until the cache is full.
     FILE *fp;
@@ -1312,6 +1313,7 @@ preload (char out[256])
     int bm, bk, wm, wk;
     char dbname[256];
     int autoloadnum = 0;
+    int rc ;
 
 
     for (n = 2; n < SPLITSIZE; n++) {
@@ -1338,7 +1340,8 @@ preload (char out[256])
 
             // this was weird: fread statement was at the end of this loop before july 30 2007 - 
             // meaning that the last block of the cache was never read into memory?
-            fread (diskblock, 1024, 1, fp);
+            rc = fread (diskblock, 1024, 1, fp);
+            (void) rc ;
 
             cachepointer++;
             //uniqueid++;
@@ -1389,7 +1392,8 @@ preload (char out[256])
                         // WARNING: here and above, the // read it statement was at the end of this loop,
                         // AFTER if cachepointer == cachesize return 1 - i have no idea why!
                         // read it
-                        fread (diskblock, 1024, 1, fp);
+                        rc = fread (diskblock, 1024, 1, fp);
+                        (void) rc ;
 
 
                         cachepointer++;

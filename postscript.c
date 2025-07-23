@@ -99,11 +99,15 @@ PostScriptDump(char *fname, CheckerBoard *b)
     /* if you have ghostscript, you can convert it directly to a png file. */
     {
 	char cmd[1024] ;
+        int rc ;
+
 	sprintf(cmd, "gs -dBATCH -q -dNOPAUSE -sDEVICE=ppmraw -r300 -sOutputFile=board.ppm board.ps") ;
-	printf("executing \"%s\"\n", cmd) ;
-	system(cmd) ;
+	printf("executing \"%s\"...", cmd) ;
+	rc = system(cmd) ;
+        printf("rc=%d\n", rc) ;
 	sprintf(cmd, "pnmscale -width 1024 board.ppm | pnmtopng > board.png") ;
-	printf("executing \"%s\"\n", cmd) ;
-	system(cmd) ;
+	printf("executing \"%s\"...", cmd) ;
+	rc = system(cmd) ;
+        printf("rc=%d\n", rc) ;
     }
 }
