@@ -1,3 +1,7 @@
+milhouse
+pdnparse
+pdnparse.tab.c
+pdnparse.tab.h
 y.tab.h
 *.o
 *.bak
