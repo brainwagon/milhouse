@@ -9,7 +9,7 @@ char *postscript_hdr =
 	"<< /PageSize [450 450] >> setpagedevice\n"
 	"\n"
 	"25 25 translate\n"
-	"(draughts.ttf) findfont 50 scalefont setfont\n" ;
+	"(./Draughts Utrecht Regular/Draughts Utrecht Regular.ttf) findfont 50 scalefont setfont\n" ;
 
 char *postscript_ftr =
 	"0 1 7 {\n"
@@ -17,10 +17,10 @@ char *postscript_ftr =
 	"   show\n"
 	"} for\n"
 	"\n"
-	"/Helvetica-Bold findfont 8 scalefont setfont\n"
+	"/Helvetica-Bold findfont 10 scalefont setfont\n"
 	"\n"
-	"/S { dup stringwidth 8 sub exch neg exch rmoveto -2 -2 rmoveto show } def\n"
-	"\n"
+	"/S { dup stringwidth 10 sub exch neg exch rmoveto -2 -2 rmoveto show } def\n"
+	"1 0 0 setrgbcolor\n"
 	" 50  50 moveto ( 4) S\n"
 	"150  50 moveto ( 3) S\n"
 	"250  50 moveto ( 2) S\n"
@@ -54,6 +54,7 @@ char *postscript_ftr =
 	"300 400 moveto (30) S\n"
 	"400 400 moveto (29) S\n"
 	"\n"
+	"0 0 0 setrgbcolor\n"
 	"newpath 0 0 400 400 rectstroke\n"
 	"newpath -10 -10 420 420 rectstroke\n"
 	"\n"
@@ -101,11 +102,14 @@ PostScriptDump(char *fname, CheckerBoard *b)
 	char cmd[1024] ;
         int rc ;
 
-	sprintf(cmd, "gs -dBATCH -q -dNOPAUSE -sDEVICE=ppmraw -r300 -sOutputFile=board.ppm board.ps") ;
+	sprintf(cmd, "gs -dBATCH -q -dNOPAUSE -sDEVICE=ppmraw -r600 -sOutputFile=board.ppm board.ps") ;
 	printf("executing \"%s\"...", cmd) ;
+
+        /* GS_FONT_PATH should point at where we are looking for the TTF file... */
+        setenv("GS_FONTPATH", ".", 1) ;
 	rc = system(cmd) ;
         printf("rc=%d\n", rc) ;
-	sprintf(cmd, "pnmscale -width 1024 board.ppm | pnmtopng > board.png") ;
+	sprintf(cmd, "pnmtopng board.ppm > board.png") ;
 	printf("executing \"%s\"...", cmd) ;
 	rc = system(cmd) ;
         printf("rc=%d\n", rc) ;

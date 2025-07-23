@@ -4,8 +4,9 @@ HDR=dblookup.h lookup8.h lookupa.h milhouse.h standard.h acf-openings.h
 PYTHONSRC=capturegen.py index.py movegen.py plaid.py
 OSRC=pdnparse.y pdnlex.l
 CFLAGS=-O6 -Wall -fomit-frame-pointer -DRUNINTERACTIVE\
-	-DMILHOUSE -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED \
+	-DMILHOUSE -D_GNU_SOURCE \
 	-DUSE_TRANSPOSITION_TABLES -DQUIESCENCE 
+
 LIBS=-lreadline -ltermcap -lm -lsqlite3
 YFLAGS=-dvg
 

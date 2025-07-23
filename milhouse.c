@@ -1737,7 +1737,15 @@ printversion()
 time_t	thinkstart ;
 int 	thinklimit = 600 ;
 
-jmp_buf	abortsearch, intrsearch ;
+/* These are buffers that are used to perform longjmp() like calls to 
+ * abort a search (if we've run out of time) or interrupt a search
+ * (if we've hit ^C, I suspect).  Originally, these were using the older
+ * setjmp/longjmp calls, but since we'd like to restore the signal 
+ * handling in the same way, they should use sigjmp_buf, which I
+ * have updated this code to use.
+ */
+
+sigjmp_buf	abortsearch, intrsearch ;
 
 void
 abortsearchhandler(int dummy) 
