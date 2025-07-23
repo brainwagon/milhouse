@@ -1081,7 +1081,7 @@ validchinookposition(CheckerBoard *b)
 
 static int gdepth ;
 
-extern int getmoves(CheckerBoard *, int, CheckerBoard move[]) ;
+int getmoves(CheckerBoard *b, int color, CheckerBoard move[MAXMOVES]);
 
 void
 indent(int n)
@@ -2316,6 +2316,7 @@ perft(int depth)
     double t0, t1 ;
 
     name = getpuzzle(0, &board, &color, &winner) ;
+    (void) name ;                                       /* we aren't going to use name... */
     t0 = gettimer() ;
     perftcount(&board, color, &total, depth) ;
     t1 = gettimer() ;
@@ -2749,8 +2750,11 @@ main(int argc, char *argv[])
 		    if ((fp = fopen(cmdargv[1], "rb")) == NULL) {
 			perror(cmdargv[1]) ;
 		    } else {
-			fread(&color, sizeof(color), 1, fp) ;
-			fread(&board, sizeof(board), 1, fp) ;
+                        int rc ;
+			rc = fread(&color, sizeof(color), 1, fp) ;
+                        (void) rc ;
+			rc = fread(&board, sizeof(board), 1, fp) ;
+                        (void) rc ;
 			printf("board restore from %s\n", cmdargv[1]) ;
 			DumpBoard(&board, color, invertflag, stdout) ;
 			fclose(fp) ;

@@ -32,12 +32,12 @@
  * 							-- markv
  */
 
-void InitIndex(uint32_t off, uint32_t k, uint32_t n);
-void SaveIndex(uint32_t off);
-void LoadIndex(uint32_t off);
-void NextIndex(uint32_t off);
-uint32_t DBrevindex(uint32_t *pos, uint32_t k);
-uint32_t DBindex(uint32_t *pos, uint32_t k);
+void InitIndex (uint32_t off, uint32_t k, uint32_t n);
+void SaveIndex (uint32_t off);
+void LoadIndex (uint32_t off);
+void NextIndex (uint32_t off);
+uint32_t DBrevindex (uint32_t * pos, uint32_t k);
+uint32_t DBindex (uint32_t * pos, uint32_t k);
 
 /* Program looks for files "DB7" and "DB6.idx" in the current directory */
 /* If you want to change the file names, look for them in the code.     */
@@ -130,7 +130,7 @@ uint32_t DBindex(uint32_t *pos, uint32_t k);
 #define TOURN_STOP              2
 
 /* Used to find the leading set bit position */
-unsigned char NextBit[ 1<<16 ];
+unsigned char NextBit[1 << 16];
 #define NEXT_BIT( POS, BITS )                                   \
         POS = BITS >> 16;                                       \
         if( POS == 0 )                                          \
@@ -139,11 +139,11 @@ unsigned char NextBit[ 1<<16 ];
 
 /* Database access */
 
-#define BICOEF          8 /* 0..7 pieces of any time B/W/b/p */
+#define BICOEF          8       /* 0..7 pieces of any time B/W/b/p */
 
 /* whr.h */
 typedef uint32_t WHERE_T;
-typedef WHERE_T         * WHERE_VEC_PTR_T;
+typedef WHERE_T *WHERE_VEC_PTR_T;
 
 #define WHERE_T_SZ      sizeof(WHERE_T)
 
@@ -154,33 +154,35 @@ typedef WHERE_T         * WHERE_VEC_PTR_T;
 
 /* definitions for database */
 
-typedef unsigned char           DB_ELEM_T;
-typedef DB_ELEM_T       *DB_VEC_PTR_T;
+typedef unsigned char DB_ELEM_T;
+typedef DB_ELEM_T *DB_VEC_PTR_T;
 
 #define DB_ELEM_SZ      sizeof(DB_ELEM_T)
 
-typedef struct sidxstr {
-        unsigned sidxbase;
-        unsigned sidxindex;
-} sidxindex, * sidxindexptr;
+typedef struct sidxstr
+{
+    unsigned sidxbase;
+    unsigned sidxindex;
+} sidxindex, *sidxindexptr;
 
-typedef struct {
-        uint32_t 	rangeBK;     /* number of Black king configurations */
-        uint32_t 	rangeWK;     /* number of White king configurations */
-        uint32_t        firstBPIdx;
-        uint32_t        nextBPIdx;
-        uint32_t        numPos;
-        uint32_t      * sidxbase;
-	uint8_t	      * sidxindex;
-        unsigned char   nWP;
-        unsigned char   nBP;
-        unsigned char   nBK;
-        unsigned char   nWK;
-        unsigned char   rankBP;
-        unsigned char   rankWP;
+typedef struct
+{
+    uint32_t rangeBK;           /* number of Black king configurations */
+    uint32_t rangeWK;           /* number of White king configurations */
+    uint32_t firstBPIdx;
+    uint32_t nextBPIdx;
+    uint32_t numPos;
+    uint32_t *sidxbase;
+    uint8_t *sidxindex;
+    unsigned char nWP;
+    unsigned char nBP;
+    unsigned char nBK;
+    unsigned char nWK;
+    unsigned char rankBP;
+    unsigned char rankWP;
 } DB_REC_T;
 
-typedef DB_REC_T        *DB_REC_PTR_T;
+typedef DB_REC_T *DB_REC_PTR_T;
 
 #define DB_REC_SZ       sizeof(DB_REC_T)
 
@@ -197,26 +199,29 @@ typedef DB_REC_T        *DB_REC_PTR_T;
                                     (Val << (IOFFSET(Index)<<1)))
 
 /* Entry for each sub-database.  */
-typedef struct db {
-        unsigned char defaulttype;      /* Dominant value in the db */
-        unsigned char value;            /* Some dbs are all one value - if
-                                           so this field is set to that value */
-        unsigned short startbyte;       /* Byte where subdatabase starst */
-        uint32_t startaddr;       	/* Position number at start byte */
-        uint32_t endaddr;               /* Ending address of db */
-        DB_REC_PTR_T db;                /* Pointer to index info */
-} DBENTRY, * DBENTRYPTR;
+typedef struct db
+{
+    unsigned char defaulttype;  /* Dominant value in the db */
+    unsigned char value;        /* Some dbs are all one value - if
+                                   so this field is set to that value */
+    unsigned short startbyte;   /* Byte where subdatabase starst */
+    uint32_t startaddr;         /* Position number at start byte */
+    uint32_t endaddr;           /* Ending address of db */
+    DB_REC_PTR_T db;            /* Pointer to index info */
+} DBENTRY, *DBENTRYPTR;
 
-void sidxCreate(DB_REC_PTR_T p, 
-		uint32_t nBP, uint32_t nWP, 
-		uint32_t rankBPL, uint32_t rankWPL, 
-		uint32_t *numPos, 
-		uint32_t *firstBPLIdx, uint32_t *nextBPLIdx) ;
+void sidxCreate (DB_REC_PTR_T p,
+                 uint32_t nBP, uint32_t nWP,
+                 uint32_t rankBPL, uint32_t rankWPL,
+                 uint32_t * numPos,
+                 uint32_t * firstBPLIdx, uint32_t * nextBPLIdx);
 
-DB_REC_PTR_T    dbCreate(uint32_t nbk, uint32_t nwk, uint32_t nbp, uint32_t nwp, uint32_t rankbp, uint32_t rankwp);
-int32_t dbLocbvToSubIdx(DBENTRYPTR *dbentry);
-DB_REC_PTR_T    dbValInit(uint32_t nbk, uint32_t nwk, uint32_t nbp, uint32_t nwp, uint32_t rankbp, uint32_t rankwp);
-uint32_t RotateBoard(uint32_t vec) ;
+DB_REC_PTR_T dbCreate (uint32_t nbk, uint32_t nwk, uint32_t nbp, uint32_t nwp,
+                       uint32_t rankbp, uint32_t rankwp);
+int32_t dbLocbvToSubIdx (DBENTRYPTR * dbentry);
+DB_REC_PTR_T dbValInit (uint32_t nbk, uint32_t nwk, uint32_t nbp,
+                        uint32_t nwp, uint32_t rankbp, uint32_t rankwp);
+uint32_t RotateBoard (uint32_t vec);
 
 /* bk X wk X bp X wp */
 #define DBTABLESIZE     ( 1 << 16 )
@@ -238,18 +243,19 @@ uint32_t RotateBoard(uint32_t vec) ;
 /* Storage is 50 * DISK_BLOCK = 50K - very small.  A few megabytes is   */
 /* better.  You can increase this parameter to whatever size you want,  */
 /* as long as it does not exceed 32MB total (see next comment).         */
-#define DB_BUFFERS              8192 /* # of DISK_BLOCK buffers */
+#define DB_BUFFERS              8192    /* # of DISK_BLOCK buffers */
 
 /* For each block of 1024 bytes, we have a record. of information */
 
 /* Using short implies that I cannot have more than 2**15 - 1   */
 /* buffers.  To have more, change 2 structures below to ints.   */
-typedef struct dbbuf {
-        uint32_t    forward;        /* In a linked list - fwd pointer */
-        uint32_t    backward;       /* backward pointer */
-        int32_t     block;          /* which block of data is this */
-        uint8_t     data[ DISK_BLOCK ];       /* block of data */
-} dbbuffer, * dbbufferptr;
+typedef struct dbbuf
+{
+    uint32_t forward;           /* In a linked list - fwd pointer */
+    uint32_t backward;          /* backward pointer */
+    int32_t block;              /* which block of data is this */
+    uint8_t data[DISK_BLOCK];   /* block of data */
+} dbbuffer, *dbbufferptr;
 
 
 #include <fcntl.h>
@@ -261,12 +267,12 @@ typedef struct dbbuf {
 #include <sys\stat.h>
 */
 
-long CheckPos(void);
-long DBLookup(void);
-void Setup(void);
-void SkipLine(void);
-void DBInit(void);
-long Nsq(uint32_t rank, WHERE_T *Ppos, uint32_t nP);
+long CheckPos (void);
+long DBLookup (void);
+void Setup (void);
+void SkipLine (void);
+void DBInit (void);
+long Nsq (uint32_t rank, WHERE_T * Ppos, uint32_t nP);
 
 /* Board vector */
 long Turn = BLACK;
@@ -280,7 +286,7 @@ uint32_t Locbv[3];
 /* says that the next 1600 values in the db are all the same as the     */
 /* dominant value.                                                      */
 int Skip[14] = {
-        0, 10, 15, 20, 25, 30, 40, 50, 60, 100, 200, 400, 800, 1600
+    0, 10, 15, 20, 25, 30, 40, 50, 60, 100, 200, 400, 800, 1600
 };
 
 /* Divisors to extract values from a byte.  Byte contains 5 position    */
@@ -313,73 +319,73 @@ int DBFile;
 /* do not need the code to convert it to the right one.                 */
 
 unsigned long RotBoard[256] = {
-        0x00000000,     0x10000000,     0x00100000,     0x10100000,
-        0x00001000,     0x10001000,     0x00101000,     0x10101000,
-        0x00000010,     0x10000010,     0x00100010,     0x10100010,
-        0x00001010,     0x10001010,     0x00101010,     0x10101010,
-        0x01000000,     0x11000000,     0x01100000,     0x11100000,
-        0x01001000,     0x11001000,     0x01101000,     0x11101000,
-        0x01000010,     0x11000010,     0x01100010,     0x11100010,
-        0x01001010,     0x11001010,     0x01101010,     0x11101010,
-        0x00010000,     0x10010000,     0x00110000,     0x10110000,
-        0x00011000,     0x10011000,     0x00111000,     0x10111000,
-        0x00010010,     0x10010010,     0x00110010,     0x10110010,
-        0x00011010,     0x10011010,     0x00111010,     0x10111010,
-        0x01010000,     0x11010000,     0x01110000,     0x11110000,
-        0x01011000,     0x11011000,     0x01111000,     0x11111000,
-        0x01010010,     0x11010010,     0x01110010,     0x11110010,
-        0x01011010,     0x11011010,     0x01111010,     0x11111010,
-        0x00000100,     0x10000100,     0x00100100,     0x10100100,
-        0x00001100,     0x10001100,     0x00101100,     0x10101100,
-        0x00000110,     0x10000110,     0x00100110,     0x10100110,
-        0x00001110,     0x10001110,     0x00101110,     0x10101110,
-        0x01000100,     0x11000100,     0x01100100,     0x11100100,
-        0x01001100,     0x11001100,     0x01101100,     0x11101100,
-        0x01000110,     0x11000110,     0x01100110,     0x11100110,
-        0x01001110,     0x11001110,     0x01101110,     0x11101110,
-        0x00010100,     0x10010100,     0x00110100,     0x10110100,
-        0x00011100,     0x10011100,     0x00111100,     0x10111100,
-        0x00010110,     0x10010110,     0x00110110,     0x10110110,
-        0x00011110,     0x10011110,     0x00111110,     0x10111110,
-        0x01010100,     0x11010100,     0x01110100,     0x11110100,
-        0x01011100,     0x11011100,     0x01111100,     0x11111100,
-        0x01010110,     0x11010110,     0x01110110,     0x11110110,
-        0x01011110,     0x11011110,     0x01111110,     0x11111110,
-        0x00000001,     0x10000001,     0x00100001,     0x10100001,
-        0x00001001,     0x10001001,     0x00101001,     0x10101001,
-        0x00000011,     0x10000011,     0x00100011,     0x10100011,
-        0x00001011,     0x10001011,     0x00101011,     0x10101011,
-        0x01000001,     0x11000001,     0x01100001,     0x11100001,
-        0x01001001,     0x11001001,     0x01101001,     0x11101001,
-        0x01000011,     0x11000011,     0x01100011,     0x11100011,
-        0x01001011,     0x11001011,     0x01101011,     0x11101011,
-        0x00010001,     0x10010001,     0x00110001,     0x10110001,
-        0x00011001,     0x10011001,     0x00111001,     0x10111001,
-        0x00010011,     0x10010011,     0x00110011,     0x10110011,
-        0x00011011,     0x10011011,     0x00111011,     0x10111011,
-        0x01010001,     0x11010001,     0x01110001,     0x11110001,
-        0x01011001,     0x11011001,     0x01111001,     0x11111001,
-        0x01010011,     0x11010011,     0x01110011,     0x11110011,
-        0x01011011,     0x11011011,     0x01111011,     0x11111011,
-        0x00000101,     0x10000101,     0x00100101,     0x10100101,
-        0x00001101,     0x10001101,     0x00101101,     0x10101101,
-        0x00000111,     0x10000111,     0x00100111,     0x10100111,
-        0x00001111,     0x10001111,     0x00101111,     0x10101111,
-        0x01000101,     0x11000101,     0x01100101,     0x11100101,
-        0x01001101,     0x11001101,     0x01101101,     0x11101101,
-        0x01000111,     0x11000111,     0x01100111,     0x11100111,
-        0x01001111,     0x11001111,     0x01101111,     0x11101111,
-        0x00010101,     0x10010101,     0x00110101,     0x10110101,
-        0x00011101,     0x10011101,     0x00111101,     0x10111101,
-        0x00010111,     0x10010111,     0x00110111,     0x10110111,
-        0x00011111,     0x10011111,     0x00111111,     0x10111111,
-        0x01010101,     0x11010101,     0x01110101,     0x11110101,
-        0x01011101,     0x11011101,     0x01111101,     0x11111101,
-        0x01010111,     0x11010111,     0x01110111,     0x11110111,
-        0x01011111,     0x11011111,     0x01111111,     0x11111111
+    0x00000000, 0x10000000, 0x00100000, 0x10100000,
+    0x00001000, 0x10001000, 0x00101000, 0x10101000,
+    0x00000010, 0x10000010, 0x00100010, 0x10100010,
+    0x00001010, 0x10001010, 0x00101010, 0x10101010,
+    0x01000000, 0x11000000, 0x01100000, 0x11100000,
+    0x01001000, 0x11001000, 0x01101000, 0x11101000,
+    0x01000010, 0x11000010, 0x01100010, 0x11100010,
+    0x01001010, 0x11001010, 0x01101010, 0x11101010,
+    0x00010000, 0x10010000, 0x00110000, 0x10110000,
+    0x00011000, 0x10011000, 0x00111000, 0x10111000,
+    0x00010010, 0x10010010, 0x00110010, 0x10110010,
+    0x00011010, 0x10011010, 0x00111010, 0x10111010,
+    0x01010000, 0x11010000, 0x01110000, 0x11110000,
+    0x01011000, 0x11011000, 0x01111000, 0x11111000,
+    0x01010010, 0x11010010, 0x01110010, 0x11110010,
+    0x01011010, 0x11011010, 0x01111010, 0x11111010,
+    0x00000100, 0x10000100, 0x00100100, 0x10100100,
+    0x00001100, 0x10001100, 0x00101100, 0x10101100,
+    0x00000110, 0x10000110, 0x00100110, 0x10100110,
+    0x00001110, 0x10001110, 0x00101110, 0x10101110,
+    0x01000100, 0x11000100, 0x01100100, 0x11100100,
+    0x01001100, 0x11001100, 0x01101100, 0x11101100,
+    0x01000110, 0x11000110, 0x01100110, 0x11100110,
+    0x01001110, 0x11001110, 0x01101110, 0x11101110,
+    0x00010100, 0x10010100, 0x00110100, 0x10110100,
+    0x00011100, 0x10011100, 0x00111100, 0x10111100,
+    0x00010110, 0x10010110, 0x00110110, 0x10110110,
+    0x00011110, 0x10011110, 0x00111110, 0x10111110,
+    0x01010100, 0x11010100, 0x01110100, 0x11110100,
+    0x01011100, 0x11011100, 0x01111100, 0x11111100,
+    0x01010110, 0x11010110, 0x01110110, 0x11110110,
+    0x01011110, 0x11011110, 0x01111110, 0x11111110,
+    0x00000001, 0x10000001, 0x00100001, 0x10100001,
+    0x00001001, 0x10001001, 0x00101001, 0x10101001,
+    0x00000011, 0x10000011, 0x00100011, 0x10100011,
+    0x00001011, 0x10001011, 0x00101011, 0x10101011,
+    0x01000001, 0x11000001, 0x01100001, 0x11100001,
+    0x01001001, 0x11001001, 0x01101001, 0x11101001,
+    0x01000011, 0x11000011, 0x01100011, 0x11100011,
+    0x01001011, 0x11001011, 0x01101011, 0x11101011,
+    0x00010001, 0x10010001, 0x00110001, 0x10110001,
+    0x00011001, 0x10011001, 0x00111001, 0x10111001,
+    0x00010011, 0x10010011, 0x00110011, 0x10110011,
+    0x00011011, 0x10011011, 0x00111011, 0x10111011,
+    0x01010001, 0x11010001, 0x01110001, 0x11110001,
+    0x01011001, 0x11011001, 0x01111001, 0x11111001,
+    0x01010011, 0x11010011, 0x01110011, 0x11110011,
+    0x01011011, 0x11011011, 0x01111011, 0x11111011,
+    0x00000101, 0x10000101, 0x00100101, 0x10100101,
+    0x00001101, 0x10001101, 0x00101101, 0x10101101,
+    0x00000111, 0x10000111, 0x00100111, 0x10100111,
+    0x00001111, 0x10001111, 0x00101111, 0x10101111,
+    0x01000101, 0x11000101, 0x01100101, 0x11100101,
+    0x01001101, 0x11001101, 0x01101101, 0x11101101,
+    0x01000111, 0x11000111, 0x01100111, 0x11100111,
+    0x01001111, 0x11001111, 0x01101111, 0x11101111,
+    0x00010101, 0x10010101, 0x00110101, 0x10110101,
+    0x00011101, 0x10011101, 0x00111101, 0x10111101,
+    0x00010111, 0x10010111, 0x00110111, 0x10110111,
+    0x00011111, 0x10011111, 0x00111111, 0x10111111,
+    0x01010101, 0x11010101, 0x01110101, 0x11110101,
+    0x01011101, 0x11011101, 0x01111101, 0x11111101,
+    0x01010111, 0x11010111, 0x01110111, 0x11110111,
+    0x01011111, 0x11011111, 0x01111111, 0x11111111
 };
 
-uint32_t Bicoef[33][BICOEF+1];
+uint32_t Bicoef[33][BICOEF + 1];
 uint32_t ReverseByte[256];
 uint32_t BitPos[32], NotBitPos[32];
 uint32_t RetrieveMask[4];
@@ -393,14 +399,14 @@ int DBPieces = 8;
 /* is organized so that the oldest parts of the database are the first  */
 /* removed to make room for new parts.                                  */
 int DBTop;
-dbbufferptr DBBuffer = NULL ;
+dbbufferptr DBBuffer = NULL;
 
 /* Read in from DB6.idx - index information where in the file to find   */
 /* each sub-database, and the starting and ending position numbers for  */
 /* each 1024 bytes in the databse.                                      */
-uint32_t * DBIndex;
+uint32_t *DBIndex;
 uint32_t MaxBlock;
-int32_t * DBBufPtr;
+int32_t *DBBufPtr;
 
 /*
  * For the complete board we want to use the definitions and indexing
@@ -408,11 +414,11 @@ int32_t * DBBufPtr;
  * general) technique.
  */
 
-WHERE_T         BoardPos[4][12];
-WHERE_T         *BPK[4];
+WHERE_T BoardPos[4][12];
+WHERE_T *BPK[4];
 
-WHERE_T         BPsave[12];
-WHERE_T         *BPKsave;
+WHERE_T BPsave[12];
+WHERE_T *BPKsave;
 
 
 #define PIECES  nbk, nwk, nbp, nwp, rankbp, rankwp
@@ -423,735 +429,702 @@ WHERE_T         *BPKsave;
 /* DIsplay a board.  Again uses my stupid board representation (see     */
 /* above).  Obviously you do not need this routine.                     */
 void
-Display(void)
+Display (void)
 {
-        int row, column, loc, empty;
-        char occupant;
+    int row, column, loc, empty;
+    char occupant;
 
-        printf("\n");
-        empty = YES;
-        for (row = 7; row >= 0; row--)
-        {
-                printf("%d  ", row + 1);
-                if (empty)
-                        printf(". ");
-                empty = !empty;
-                loc = (row >> 1) + ((row & 1) ? 4 : 0);
-                for (column = 3; column >= 0; column--)
-                {
-                        if (Locbv[WHITE] & (1L << loc))
-                                occupant = (Locbv[KINGS] & (1L << loc))
-                                         ? 'W' : 'w';
-                        else if (Locbv[BLACK] & (1L << loc))
-                                occupant = (Locbv[KINGS] & (1L << loc))
-                                         ? 'B' : 'b';
-                        else    occupant = '-';
-                        if (column == 0 && empty == NO)
-                                printf("%c", occupant);
-                        else    printf("%c . ", occupant);
-                        loc += 8;
-                }
-                if (row == 4)
-                        printf("  %s to move\n", Turn ? "Black" : "White");
-                else    printf("\n");
+    printf ("\n");
+    empty = YES;
+    for (row = 7; row >= 0; row--) {
+        printf ("%d  ", row + 1);
+        if (empty)
+            printf (". ");
+        empty = !empty;
+        loc = (row >> 1) + ((row & 1) ? 4 : 0);
+        for (column = 3; column >= 0; column--) {
+            if (Locbv[WHITE] & (1L << loc))
+                occupant = (Locbv[KINGS] & (1L << loc))
+                    ? 'W' : 'w';
+            else if (Locbv[BLACK] & (1L << loc))
+                occupant = (Locbv[KINGS] & (1L << loc))
+                    ? 'B' : 'b';
+            else
+                occupant = '-';
+            if (column == 0 && empty == NO)
+                printf ("%c", occupant);
+            else
+                printf ("%c . ", occupant);
+            loc += 8;
         }
-        printf("   a b c d e f g h\n");
+        if (row == 4)
+            printf ("  %s to move\n", Turn ? "Black" : "White");
+        else
+            printf ("\n");
+    }
+    printf ("   a b c d e f g h\n");
 }
+
 /* Allow the user to set up a position.  Again you do not need this routine */
-void Setup(void)
+void
+Setup (void)
 {
-        int row, col, addr;
-        uint32_t mask;
-        char c;
+    int row, col, addr;
+    uint32_t mask;
+    char c;
 
-        Locbv[WHITE] = Locbv[BLACK] = Locbv[KINGS] = 0;
-        scanf("%c", &c);
-        for (row = 7; row >= 0; row--)
-        {
-                printf("%d >", row + 1);
-                addr = (row >> 1);
-                if (row & 1)
-                        addr += 4;
-                for (col = 0; col < 4; col++)
-                {
-                        mask = (1L << addr);
-                        scanf("%c", &c);
-                        switch(c)
-                        {
-                            case ' ':
-                            case '.':
-                                break;
-                            case '\n':
-                                col = 4;
-                                break;
-                            case 'w':
-                                Locbv[WHITE] |= mask;
-                                break;
-                            case 'W':
-                                Locbv[WHITE] |= mask;
-                                Locbv[KINGS] |= mask;
-                                break;
-                            case 'b':
-                                Locbv[BLACK] |= mask;
-                                break;
-                            case 'B':
-                                Locbv[BLACK] |= mask;
-                                Locbv[KINGS] |= mask;
-                                break;
-                            default:
-                                printf("ERROR: illegal setup\n");
-                                SkipLine();
-                                return;
-                        }
-                        addr += 8;
-                }
-                if (c != '\n')
-                        scanf("%c", &c);
-                if (c != '\n')
-                {
-                        printf("ERROR: illegal setup\n");
-                        SkipLine();
-                        return;
-                }
-        }
-
-        if ((long) CheckPos() == NO)
-        {
-                printf("ERROR: illegal setup\n");
+    Locbv[WHITE] = Locbv[BLACK] = Locbv[KINGS] = 0;
+    scanf ("%c", &c);
+    for (row = 7; row >= 0; row--) {
+        printf ("%d >", row + 1);
+        addr = (row >> 1);
+        if (row & 1)
+            addr += 4;
+        for (col = 0; col < 4; col++) {
+            mask = (1L << addr);
+            scanf ("%c", &c);
+            switch (c) {
+            case ' ':
+            case '.':
+                break;
+            case '\n':
+                col = 4;
+                break;
+            case 'w':
+                Locbv[WHITE] |= mask;
+                break;
+            case 'W':
+                Locbv[WHITE] |= mask;
+                Locbv[KINGS] |= mask;
+                break;
+            case 'b':
+                Locbv[BLACK] |= mask;
+                break;
+            case 'B':
+                Locbv[BLACK] |= mask;
+                Locbv[KINGS] |= mask;
+                break;
+            default:
+                printf ("ERROR: illegal setup\n");
+                SkipLine ();
                 return;
+            }
+            addr += 8;
         }
-        Display();
-        printf("HEX: %08x %08x %08x\n", Locbv[0],Locbv[1],Locbv[2]);
+        if (c != '\n')
+            scanf ("%c", &c);
+        if (c != '\n') {
+            printf ("ERROR: illegal setup\n");
+            SkipLine ();
+            return;
+        }
+    }
+
+    if ((long) CheckPos () == NO) {
+        printf ("ERROR: illegal setup\n");
+        return;
+    }
+    Display ();
+    printf ("HEX: %08x %08x %08x\n", Locbv[0], Locbv[1], Locbv[2]);
 }
 
 /* Used by Steup to see if a position is legal - you do not need this code */
-long CheckPos(void)
+long
+CheckPos (void)
 {
-        uint32_t mask;
-        long count;
+    uint32_t mask;
+    long count;
 
-        /* Does this position make sense? */
-        /* Count number of men on board - must be <= 12 */
-        mask = Locbv[WHITE];
-        for (count = 0; mask; count++)
-                mask &= (mask -1);
-        /* Is there a checker on the last rank? */
-        mask = Locbv[WHITE] & ~Locbv[KINGS] & 0x80808080;
-        if (count > 12 || mask)
-                return(0L);
+    /* Does this position make sense? */
+    /* Count number of men on board - must be <= 12 */
+    mask = Locbv[WHITE];
+    for (count = 0; mask; count++)
+        mask &= (mask - 1);
+    /* Is there a checker on the last rank? */
+    mask = Locbv[WHITE] & ~Locbv[KINGS] & 0x80808080;
+    if (count > 12 || mask)
+        return (0L);
 
-        /* Count number of men on board - must be <= 12 */
-        mask = Locbv[BLACK];
-        for (count = 0; mask; count++)
-                mask &= (mask -1);
-        /* Is there a checker on the last rank? */
-        mask = Locbv[BLACK] & ~Locbv[KINGS] & 0x01010101;
-        if (count > 12 || mask)
-                return(0L);
-        
-        return(1L);
+    /* Count number of men on board - must be <= 12 */
+    mask = Locbv[BLACK];
+    for (count = 0; mask; count++)
+        mask &= (mask - 1);
+    /* Is there a checker on the last rank? */
+    mask = Locbv[BLACK] & ~Locbv[KINGS] & 0x01010101;
+    if (count > 12 || mask)
+        return (0L);
+
+    return (1L);
 }
 
-void SkipLine(void)
+void
+SkipLine (void)
 {
-        char c = ' ';
+    char c = ' ';
 
-        while (c != '\n')
-                scanf("%c", &c);
+    while (c != '\n')
+        scanf ("%c", &c);
 }
 
 /* Initialize the database data strucures */
 
-void DBInit(void)
+void
+DBInit (void)
 {
-        int i, c, j, p, w, b, wk, bk, bp, wp, wr, br, stat;
-        int32_t dbidx, index, addr;
-	off_t dbsize;
-        uint32_t number, deftype, byte, min, limit, blocks;
-        char dt, dtt, next;
-        uint32_t * dbindex, buffers;
-        int dbffp;
-        FILE * dbifp;
-        dbbufferptr a;
-        DBENTRYPTR ptr;
-        int32_t * dbbufptr;
+    int i, c, j, p, w, b, wk, bk, bp, wp, wr, br, stat;
+    int32_t dbidx, index, addr;
+    off_t dbsize;
+    uint32_t number, deftype, byte, min, limit, blocks;
+    char dt, dtt, next;
+    uint32_t *dbindex, buffers;
+    int dbffp;
+    FILE *dbifp;
+    dbbufferptr a;
+    DBENTRYPTR ptr;
+    int32_t *dbbufptr;
 
-        /* Initialization 
-	 * I don't remember why I thought I needed to know what the 
-	 * sizeof(long) was.  I was hoping that I had converted everything
-	 * to use the types defined in stdint.h.
-	 * printf("sanity checking sizeof(long) = %ld\n", sizeof(long)) ;
-	 */
+    /* Initialization 
+     * I don't remember why I thought I needed to know what the 
+     * sizeof(long) was.  I was hoping that I had converted everything
+     * to use the types defined in stdint.h.
+     * printf("sanity checking sizeof(long) = %ld\n", sizeof(long)) ;
+     */
 
-        /* ReverseByte contains the "reverse" of each byte 0..255. For  */
-        /* example, entry 17 (binary 00010001) is a (10001000) - reverse*/
-        /* the bits.                                                    */
-        for (i = 0; i < 256; i++)
-        {
-                ReverseByte[i] = 0;
-                for (j = 0; j < 8; j++)
-                        if (i & (1L << j))
-                                ReverseByte[i] |= (1L << (7 - j));
+    /* ReverseByte contains the "reverse" of each byte 0..255. For  */
+    /* example, entry 17 (binary 00010001) is a (10001000) - reverse */
+    /* the bits.                                                    */
+    for (i = 0; i < 256; i++) {
+        ReverseByte[i] = 0;
+        for (j = 0; j < 8; j++)
+            if (i & (1L << j))
+                ReverseByte[i] |= (1L << (7 - j));
+    }
+
+    /* Compute binomial coeficients */
+    for (i = 0; i <= 32; i++) {
+        min = MIN (BICOEF, i);
+        for (j = 0; j <= min; j++) {
+            if (j == 0 || i == j)
+                Bicoef[i][j] = 1;
+            else
+                Bicoef[i][j] = Bicoef[i - 1][j] + Bicoef[i - 1][j - 1];
         }
+    }
+    /* Needed to make sideindex work properly.  Note that if we ever */
+    /* do the 7:1 databases, this won't work!                        */
+    Bicoef[0][BICOEF] = 0;
 
-        /* Compute binomial coeficients */
-        for (i = 0; i <= 32; i++)
-        {
-                min = MIN(BICOEF, i);
-                for (j = 0; j <= min; j++)
-                {
-                        if (j == 0 || i == j)
-                                Bicoef[i][j] = 1;
-                        else    Bicoef[i][j] =
-                                Bicoef[i-1][j] + Bicoef[i-1][j-1];
-                }
-        }
-        /* Needed to make sideindex work properly.  Note that if we ever */
-        /* do the 7:1 databases, this won't work!                        */
-        Bicoef[0][BICOEF] = 0;
+    /* Mask for extracting values */
+    for (i = 0; i < DB_ELEM_SZ * 4; i++)
+        RetrieveMask[i] = 3L << (i << 1);
 
-        /* Mask for extracting values */
-        for (i = 0; i < DB_ELEM_SZ * 4; i++)
-                RetrieveMask[i] = 3L << (i << 1);
+    /* Mask for bit positons - just trying to make this more efficient */
+    /* by using tables instead of shifts all the time.              */
+    for (i = 0; i < 32; i++) {
+        BitPos[i] = 1L << i;
+        NotBitPos[i] = ~BitPos[i];
+    }
 
-        /* Mask for bit positons - just trying to make this more efficient*/
-        /* by using tables instead of shifts all the time.              */
-        for (i = 0; i < 32; i++)
-        {
-                BitPos[i] = 1L << i;
-                NotBitPos[i] = ~BitPos[i];
-        }
+    /* DBTable is used to speedup looking up an entry.  There is one */
+    /* entry for each possible database.  Note that some of the     */
+    /* posible databases do not really exist (e.g. 6 against 0)     */
+    for (i = 0; i < DBTABLESIZE; i++)
+        DBTable[i] = (DBENTRYPTR) - 1;
 
-        /* DBTable is used to speedup looking up an entry.  There is one*/
-        /* entry for each possible database.  Note that some of the     */
-        /* posible databases do not really exist (e.g. 6 against 0)     */
-        for (i = 0; i < DBTABLESIZE; i++)
-                DBTable[i] = (DBENTRYPTR) -1;
+    printf ("... initializing Chinook endgame database...\n");
 
-        printf("... initializing Chinook endgame database...\n");
+    /* Initalize datastructures for each size of database */
+    /* For each combination of wk, bk, wp, bp totalling 6 pieces,   */
+    /* have an entry in DBTable.  Each entry is a pointer to storage */
+    /* For a pure king endgame, need only 1 entry.  For a db with   */
+    /* only 1 side having checkers, need 7 entries (checker can be  */
+    /* on one of 7 ranks).  Other dbs need 49 entries - each side   */
+    /* has a checker on 1 of 7 ranks.                               */
+    for (p = 2; p <= DBPieces; p++) {
+        for (b = 1; b <= p; b++) {
+            w = p - b;
+            if (w == 0)
+                continue;
+            for (bk = b; bk >= 0; bk--) {
+                for (wk = w; wk >= 0; wk--) {
+                    bp = b - bk;
+                    wp = w - wk;
+                    if (bp == 0 && wp == 0)
+                        number = 1;
+                    else if (bp == 0 || wp == 0)
+                        number = 7;
+                    else
+                        number = 49;
+                    index = DBINDEX (bk, wk, bp, wp);
 
-        /* Initalize datastructures for each size of database */
-        /* For each combination of wk, bk, wp, bp totalling 6 pieces,   */
-        /* have an entry in DBTable.  Each entry is a pointer to storage*/
-        /* For a pure king endgame, need only 1 entry.  For a db with   */
-        /* only 1 side having checkers, need 7 entries (checker can be  */
-        /* on one of 7 ranks).  Other dbs need 49 entries - each side   */
-        /* has a checker on 1 of 7 ranks.                               */
-        for (p = 2; p <= DBPieces; p++)
-        {
-            for (b = 1; b <= p; b++)
-            {
-                w = p - b;
-                if (w == 0)
-                        continue;
-                for (bk = b; bk >= 0; bk--)
-                {
-                    for (wk = w; wk >= 0; wk--)
-                    {
-                        bp = b - bk;
-                        wp = w - wk;
-                        if (bp == 0 && wp == 0)
-                                number = 1;
-                        else if (bp == 0 || wp == 0)
-                                number = 7;
-                        else    number = 49;
-                        index = DBINDEX(bk, wk, bp, wp);
+                    /* Allocate storage of 1, 7 or 49 entries */
+                    ptr = (DBENTRYPTR) malloc (sizeof (DBENTRY) * number);
+                    if (ptr == NULL) {
+                        printf ("ERROR: malloc failure in DBInit\n");
+                        exit (-1);
+                    }
 
-                        /* Allocate storage of 1, 7 or 49 entries */
-                        ptr = (DBENTRYPTR) malloc(sizeof(DBENTRY) * number);
-                        if (ptr == NULL)
-                        {
-                                printf("ERROR: malloc failure in DBInit\n");
-                                exit(-1);
-                        }
-
-                        /* Initialize enach entry */
-                        DBTable[index] = ptr;
-                        for (i = 0; i < number; i++)
-                        {
-                                ptr->value       = CHINOOK_UNKNOWN;
-                                ptr->defaulttype = CHINOOK_UNKNOWN;
-                                ptr->startaddr   = 0;
-                                ptr->startbyte   = 0;
-                                ptr->endaddr     = 0;
-                                ptr->db          = 0;
-                                ptr++;
-                        }
+                    /* Initialize enach entry */
+                    DBTable[index] = ptr;
+                    for (i = 0; i < number; i++) {
+                        ptr->value = CHINOOK_UNKNOWN;
+                        ptr->defaulttype = CHINOOK_UNKNOWN;
+                        ptr->startaddr = 0;
+                        ptr->startbyte = 0;
+                        ptr->endaddr = 0;
+                        ptr->db = 0;
+                        ptr++;
                     }
                 }
             }
         }
+    }
 
-        /* Open database file */
-        printf("... using database DB6\n");
-        DBFile = open( "chinook-db/DB6", O_RDONLY);
-        if( DBFile == 0 )
-        {
-                printf("Cannot open DB6\n");
-                exit(-1);
+    /* Open database file */
+    printf ("... using database DB6\n");
+    DBFile = open ("chinook-db/DB6", O_RDONLY);
+    if (DBFile == 0) {
+        printf ("Cannot open DB6\n");
+        exit (-1);
+    }
+
+    /* Read in index files */
+    buffers = 0;
+    limit = DBPieces;
+    DBPieces = 0;
+
+    /* Index file contains all the sub-database - file is in text   */
+    /* each db is in there, and this loop reads in that info.  For  */
+    /* example, here is the head of the file:                       */
+    /* BASE1100.00 =        DB 1bk, 1wk, 0bp, 0wp - mostly draws    */
+    /* S      0       0/0   Start position 0 at block 0, byte 0     */
+    /* E    995       0/189 End at position 995, at block 0 byte 189 */
+    /*                      By defualt, block size is 1024 bytes    */
+    /*                                                              */
+    /*                      This says this database of 995 positions */
+    /*                      has been compressed to 189 bytes.       */
+    /*                                                              */
+    /* BASE1001.00 +        DB 1bk, 0wk, 0bp, 1wp on rank 0. Wins   */
+    /* S      0       0/189                                         */
+    /* E    125       0/214                                         */
+    /*                      125 positions in 214-189=25 bytes       */
+    /*                      Most  positions in DB are black wins    */
+    /*                                                              */
+    /* BASE1001.01 =        DB 1bk, 0wk, 0bp, 1wp on rank 1.  Draws */
+    /* S      0       0/214                                         */
+    /* etc.                 Interesting.  With the checker on the   */
+    /*                      1st rank most pos are draws, on the 0th, */
+    /*                      wins.  Must be because of the move.     */
+    /*                                                              */
+    /* BASE0011.51 ==       DB 0 kings, 1 bp on 5th, 1 wp on 1st    */
+    /*                      == means entire db is drawn.  ++ means  */
+    /*                      all db is win; -- all is loss.          */
+    /*                                                              */
+    /* Here is a bigger db:                                         */
+    /* BASE1311.26 -                                                */
+    /* S      0    2024/783 Position 0 at block 2024, byte 783      */
+    /*                      i.e. starts at addr=2024*1024+783       */
+    /* . 327765    2025     Next block (2025), 1st pos is 327,765   */
+    /* .1625795    2026     Next block (2026), 1st pos is 1,625,795 */
+    /* E1753920    2026/143 Ending addr=2026*1024+143               */
+    /*                      Num positions in db = 1,753,920         */
+    /*                      Bytes used: endaddr-startaddr=1408      */
+    /*                      Nice compression ratio!!                */
+
+    /* Allocate index files */
+    /* Need to get size from end of file. */
+    dbffp = DBFile;
+    dbsize = lseek (dbffp, 0L, 2);
+    lseek (dbffp, 0L, 0);
+    blocks = (dbsize / DISK_BLOCK);
+
+    /* MaxBlock contains the number of the last block in the */
+    /* file.  I check for read errors.  All reads of db get */
+    /* DISK_BLOCK bytes - except the last read.             */
+    MaxBlock = blocks++;
+    printf ("... allocating %lu/%d entry index\n", dbsize, blocks);
+    DBIndex = dbindex = (uint32_t *)
+        malloc (blocks * sizeof (uint32_t));
+    DBBufPtr = dbbufptr = (int32_t *)
+        malloc (blocks * sizeof (int32_t));
+    if (dbindex == NULL || dbbufptr == NULL) {
+        printf ("ERROR: dbindex malloc\n");
+        exit (-1);
+    }
+
+    /* Read index file and build table */
+    dbidx = -1;
+    dbifp = fopen ("chinook-db/DB6.idx", "r");
+    if (dbifp == NULL) {
+        printf ("ERROR: cannot open DB6.idx\n");
+        exit (-1);
+    }
+
+    printf ("... initializing ");
+    /* Read the entire index file */
+    for (i = 0;;) {
+        /* Parse the header line of each sub-database */
+        stat = fscanf (dbifp, "BASE%1d%1d%1d%1d.%1d%1d %c%c",
+                       &bk, &wk, &bp, &wp, &br, &wr, &dt, &dtt);
+        if (stat <= 0)
+            break;
+        if (stat < 8) {
+            printf ("ERROR: DBInit scanf failure %d\n", stat);
+            exit (-1);
         }
 
-        /* Read in index files */
-        buffers = 0;
-        limit = DBPieces;
-        DBPieces = 0;
-
-        /* Index file contains all the sub-database - file is in text   */
-        /* each db is in there, and this loop reads in that info.  For  */
-        /* example, here is the head of the file:                       */
-        /* BASE1100.00 =        DB 1bk, 1wk, 0bp, 0wp - mostly draws    */
-        /* S      0       0/0   Start position 0 at block 0, byte 0     */
-        /* E    995       0/189 End at position 995, at block 0 byte 189*/
-        /*                      By defualt, block size is 1024 bytes    */
-        /*                                                              */
-        /*                      This says this database of 995 positions*/
-        /*                      has been compressed to 189 bytes.       */
-        /*                                                              */
-        /* BASE1001.00 +        DB 1bk, 0wk, 0bp, 1wp on rank 0. Wins   */
-        /* S      0       0/189                                         */
-        /* E    125       0/214                                         */
-        /*                      125 positions in 214-189=25 bytes       */
-        /*                      Most  positions in DB are black wins    */
-        /*                                                              */
-        /* BASE1001.01 =        DB 1bk, 0wk, 0bp, 1wp on rank 1.  Draws */
-        /* S      0       0/214                                         */
-        /* etc.                 Interesting.  With the checker on the   */
-        /*                      1st rank most pos are draws, on the 0th,*/
-        /*                      wins.  Must be because of the move.     */
-        /*                                                              */
-        /* BASE0011.51 ==       DB 0 kings, 1 bp on 5th, 1 wp on 1st    */
-        /*                      == means entire db is drawn.  ++ means  */
-        /*                      all db is win; -- all is loss.          */
-        /*                                                              */
-        /* Here is a bigger db:                                         */
-        /* BASE1311.26 -                                                */
-        /* S      0    2024/783 Position 0 at block 2024, byte 783      */
-        /*                      i.e. starts at addr=2024*1024+783       */
-        /* . 327765    2025     Next block (2025), 1st pos is 327,765   */
-        /* .1625795    2026     Next block (2026), 1st pos is 1,625,795 */
-        /* E1753920    2026/143 Ending addr=2026*1024+143               */
-        /*                      Num positions in db = 1,753,920         */
-        /*                      Bytes used: endaddr-startaddr=1408      */
-        /*                      Nice compression ratio!!                */
-
-                /* Allocate index files */
-                /* Need to get size from end of file. */
-                dbffp = DBFile;
-                dbsize = lseek(dbffp, 0L, 2);
-                lseek(dbffp, 0L, 0);
-                blocks = (dbsize / DISK_BLOCK);
-
-                /* MaxBlock contains the number of the last block in the */
-                /* file.  I check for read errors.  All reads of db get */
-                /* DISK_BLOCK bytes - except the last read.             */
-                MaxBlock = blocks++;
-                printf("... allocating %lu/%d entry index\n", dbsize, blocks);
-                DBIndex = dbindex  = ( uint32_t *)
-                                malloc(blocks * sizeof(uint32_t));
-                DBBufPtr = dbbufptr = (int32_t *) 
-			malloc(blocks * sizeof(int32_t));
-                if (dbindex == NULL || dbbufptr == NULL)
-                {
-                        printf("ERROR: dbindex malloc\n");
-                        exit(-1);
-                }
-
-                /* Read index file and build table */
-                dbidx = -1;
-                dbifp = fopen("chinook-db/DB6.idx", "r");
-                if (dbifp == NULL)
-                {
-                        printf("ERROR: cannot open DB6.idx\n");
-                        exit(-1);
-                }
-
-		printf("... initializing ");
-                /* Read the entire index file */
-                for (i = 0; ;)
-                {
-                        /* Parse the header line of each sub-database */
-                        stat = fscanf(dbifp, "BASE%1d%1d%1d%1d.%1d%1d %c%c",
-                                &bk, &wk, &bp, &wp, &br, &wr, &dt, &dtt);
-                        if (stat <= 0)
-                                break;
-                        if (stat < 8)
-                        {
-                                printf("ERROR: DBInit scanf failure %d\n",
-                                                stat);
-                                exit(-1);
-                        }
-
-                        i = bk + wk + bp + wp;
-                        if (i > limit)
-                                break;
-                        if (i != DBPieces)
-                        {
-                                printf("%d...", i);
-                                DBPieces = i;
-                        }
-
-                        /* What is the database? */
-                        index = DBINDEX(bk, wk, bp, wp);
-                        ptr = DBTable[index];
-                        if (ptr == NULL)
-                        {
-                                printf("ERROR: %d %d %d %d %d %d %c dbtab\n",
-                                        bk, wk, bp, wp, br, wr, dt);
-                                exit(-1);
-                        }
-
-                        /* Based on who has checkers, index into the    */
-                        /* 1/7/49 entries.                              */
-                        if (wp == 0)
-                                number = br;
-                        else    number = br * 7 + wr;
-                        ptr += number;
-
-                        /* If we are not at end of line, we have a db   */
-                        /* that is all one value.                       */
-                        if (dtt != '\n')
-                        {
-                                if (dtt == '+')
-                                        ptr->value = CHINOOK_WIN;
-                                else if (dtt == '-')
-                                        ptr->value = CHINOOK_LOSS;
-                                else if (dtt == '=')
-                                        ptr->value = CHINOOK_TIE;
-                                else    printf("ERROR: illegal result %c\n",
-                                                dtt);
-                                fscanf(dbifp, "\n");
-                                continue;
-                        }
-
-                        /* Create the index informaiton for the database */
-                        ptr->db = dbValInit((long)bk,(long)wk,(long)bp,
-                                         (long)wp,(long)br,(long)wr);
-
-                        /* Set the default type */
-                        if (dt == '=')
-                                deftype = CHINOOK_TIE;
-                        else if (dt == '+')
-                                deftype = CHINOOK_WIN;
-                        else if (dt == '-')
-                                deftype = CHINOOK_LOSS;
-                        else {
-                                printf("ERROR: illegal type %c\n", dt);
-                                exit(-1);
-                        }
-                        ptr->defaulttype = deftype;
-
-                        /* Read in the starting address */
-                        next = getc(dbifp);
-                        if (next != 'S')
-                        {
-                                printf("ERROR: illegal start %c\n", next);
-                                exit(-1);
-                        }
-                        stat = fscanf(dbifp, "%d%d/%d\n", &index, &addr,
-                                                        &byte);
-                        if (stat != 3)
-                        {
-                                printf("ERROR: illegal start read %d\n",
-                                                        stat);
-                                exit(-1);
-                        }
-                        ptr->startaddr = addr;
-                        ptr->startbyte = byte;
-
-                        /* If starting address takes us into a new block, */
-                        /* update table of indexes.                     */
-                        if (addr != dbidx)
-                        {
-                                dbindex [++dbidx] = index;
-                                dbbufptr[  dbidx] = -1;
-                        }
-
-                        /* Read each line of the database - block number */
-                        /* and position number.                         */
-                        for (; ;)
-                        {
-                                stat = fscanf(dbifp, "%c", &dt);
-                                if (stat != 1)
-                                {
-                                        printf("ERROR: db read1 %d\n", stat);
-                                        exit(-1);
-                                }
-                                if (dt == 'E')
-                                        break;
-                                stat = fscanf(dbifp, "%d%d\n", &index, &addr);
-                                if (stat != 2)
-                                {
-                                        printf("ERROR: db read2 %d\n", stat);
-                                        exit(-1);
-                                }
-                                if (addr != dbidx)
-                                {
-                                        dbindex [++dbidx] = index;
-                                        dbbufptr[  dbidx] = -1;
-                                }
-                        }
-                        stat = fscanf(dbifp, "%d%d/%d\n",
-                                                &index, &addr, &byte);
-                        if (stat != 3)
-                        {
-                                printf("ERROR: db read3 %d\n", stat);
-                                exit(-1);
-                        }
-                        ptr->endaddr = addr;
-                }
-		printf(" database\n");
-                fclose(dbifp);
-
-        /* Initialize database buffers - this is the storage used to hold */
-        /* portions of the database, assuming you do not have enough memory */
-        /* to hold the entire db.  If you do, things are *much simpler* */
-        buffers += DB_BUFFERS;
-        printf("... allocating %d buffers\n", buffers);
-        DBBuffer = (dbbufferptr) malloc(buffers * sizeof(dbbuffer));
-        if (DBBuffer == NULL)
-        {
-                printf("ERROR: malloc failure on DBBuffer\n");
-                exit(-1);
+        i = bk + wk + bp + wp;
+        if (i > limit)
+            break;
+        if (i != DBPieces) {
+            printf ("%d...", i);
+            DBPieces = i;
         }
-        printf("... initializing %d buffers\n", DB_BUFFERS);
-        for (i = 0; i < DB_BUFFERS; i++)
-        {
-                a = &DBBuffer[i];
-                a->forward  = i + 1;
-                a->backward = i - 1;
-                a->block    =    -1;
-                for (j = DISK_BLOCK -1; j >= 0; j--)
-                        a->data[j] = 0;
-        }
-        DBBuffer[i - 1].forward  = 0;
-        DBBuffer[0    ].backward = i - 1;
-        DBTop = 0;
 
-	/* Initialize the "next bit" table, was previously done in 
-	 * main(), sigh.  Stupid. -- markv 
-	 */
-	c = 0;
-        NextBit[ 0 ] = 0;
-        for( i = 1; i < ( 1<<16 ); i++ )
-        {
-                if( ( i & ( 1<<c ) ) == 0 )
-                        c++;
-                NextBit[ i ] = c;
+        /* What is the database? */
+        index = DBINDEX (bk, wk, bp, wp);
+        ptr = DBTable[index];
+        if (ptr == NULL) {
+            printf ("ERROR: %d %d %d %d %d %d %c dbtab\n",
+                    bk, wk, bp, wp, br, wr, dt);
+            exit (-1);
         }
+
+        /* Based on who has checkers, index into the    */
+        /* 1/7/49 entries.                              */
+        if (wp == 0)
+            number = br;
+        else
+            number = br * 7 + wr;
+        ptr += number;
+
+        /* If we are not at end of line, we have a db   */
+        /* that is all one value.                       */
+        if (dtt != '\n') {
+            if (dtt == '+')
+                ptr->value = CHINOOK_WIN;
+            else if (dtt == '-')
+                ptr->value = CHINOOK_LOSS;
+            else if (dtt == '=')
+                ptr->value = CHINOOK_TIE;
+            else
+                printf ("ERROR: illegal result %c\n", dtt);
+            fscanf (dbifp, "\n");
+            continue;
+        }
+
+        /* Create the index informaiton for the database */
+        ptr->db = dbValInit ((long) bk, (long) wk, (long) bp,
+                             (long) wp, (long) br, (long) wr);
+
+        /* Set the default type */
+        if (dt == '=')
+            deftype = CHINOOK_TIE;
+        else if (dt == '+')
+            deftype = CHINOOK_WIN;
+        else if (dt == '-')
+            deftype = CHINOOK_LOSS;
+        else {
+            printf ("ERROR: illegal type %c\n", dt);
+            exit (-1);
+        }
+        ptr->defaulttype = deftype;
+
+        /* Read in the starting address */
+        next = getc (dbifp);
+        if (next != 'S') {
+            printf ("ERROR: illegal start %c\n", next);
+            exit (-1);
+        }
+        stat = fscanf (dbifp, "%d%d/%d\n", &index, &addr, &byte);
+        if (stat != 3) {
+            printf ("ERROR: illegal start read %d\n", stat);
+            exit (-1);
+        }
+        ptr->startaddr = addr;
+        ptr->startbyte = byte;
+
+        /* If starting address takes us into a new block, */
+        /* update table of indexes.                     */
+        if (addr != dbidx) {
+            dbindex[++dbidx] = index;
+            dbbufptr[dbidx] = -1;
+        }
+
+        /* Read each line of the database - block number */
+        /* and position number.                         */
+        for (;;) {
+            stat = fscanf (dbifp, "%c", &dt);
+            if (stat != 1) {
+                printf ("ERROR: db read1 %d\n", stat);
+                exit (-1);
+            }
+            if (dt == 'E')
+                break;
+            stat = fscanf (dbifp, "%d%d\n", &index, &addr);
+            if (stat != 2) {
+                printf ("ERROR: db read2 %d\n", stat);
+                exit (-1);
+            }
+            if (addr != dbidx) {
+                dbindex[++dbidx] = index;
+                dbbufptr[dbidx] = -1;
+            }
+        }
+        stat = fscanf (dbifp, "%d%d/%d\n", &index, &addr, &byte);
+        if (stat != 3) {
+            printf ("ERROR: db read3 %d\n", stat);
+            exit (-1);
+        }
+        ptr->endaddr = addr;
+    }
+    printf (" database\n");
+    fclose (dbifp);
+
+    /* Initialize database buffers - this is the storage used to hold */
+    /* portions of the database, assuming you do not have enough memory */
+    /* to hold the entire db.  If you do, things are *much simpler* */
+    buffers += DB_BUFFERS;
+    printf ("... allocating %d buffers\n", buffers);
+    DBBuffer = (dbbufferptr) malloc (buffers * sizeof (dbbuffer));
+    if (DBBuffer == NULL) {
+        printf ("ERROR: malloc failure on DBBuffer\n");
+        exit (-1);
+    }
+    printf ("... initializing %d buffers\n", DB_BUFFERS);
+    for (i = 0; i < DB_BUFFERS; i++) {
+        a = &DBBuffer[i];
+        a->forward = i + 1;
+        a->backward = i - 1;
+        a->block = -1;
+        for (j = DISK_BLOCK - 1; j >= 0; j--)
+            a->data[j] = 0;
+    }
+    DBBuffer[i - 1].forward = 0;
+    DBBuffer[0].backward = i - 1;
+    DBTop = 0;
+
+    /* Initialize the "next bit" table, was previously done in 
+     * main(), sigh.  Stupid. -- markv 
+     */
+    c = 0;
+    NextBit[0] = 0;
+    for (i = 1; i < (1 << 16); i++) {
+        if ((i & (1 << c)) == 0)
+            c++;
+        NextBit[i] = c;
+    }
 }
 
 /* Look up a position in the database */
 /* Do not call with one side having 0 pieces */
 
-long DBLookup(void)
+long
+DBLookup (void)
 {
-	/* the compiler was complaining (rightfully) that result may be 
- 	 * used unitialized.   Frankly, the logic is scary enough that I'm
- 	 * not certain it wasn't right.  Ugly.  I init it to indicate a 	
-	 * a CHINOOK_TIE, just in case -- markv */
-        long result = CHINOOK_TIE ;
-	uint32_t diff, back, fwd, use; 
-        uint32_t index, cindex, c;
-        DBENTRYPTR dbentry;
-        int32_t start, end, middle, byte, def;
-        unsigned char *buffer;
-        uint32_t *dbindex;
-        int32_t *dbbufptr;
-        int cx, i;
+    /* the compiler was complaining (rightfully) that result may be 
+     * used unitialized.   Frankly, the logic is scary enough that I'm
+     * not certain it wasn't right.  Ugly.  I init it to indicate a         
+     * a CHINOOK_TIE, just in case -- markv */
+    long result = CHINOOK_TIE;
+    uint32_t diff, back, fwd, use;
+    uint32_t index, cindex, c;
+    DBENTRYPTR dbentry;
+    int32_t start, end, middle, byte, def;
+    unsigned char *buffer;
+    uint32_t *dbindex;
+    int32_t *dbbufptr;
+    int cx, i;
 
-        /* Find out its index */
-        index = dbLocbvToSubIdx( &dbentry );
+    /* Find out its index */
+    index = dbLocbvToSubIdx (&dbentry);
 
-        /* Check if we already know its value because the db is all one value */
-        if ((int32_t)index < 0) {
-                if (index == -(CHINOOK_WIN+1))
-                        return((long) CHINOOK_WIN);
-                if (index == -(CHINOOK_LOSS + 1))
-                        return((long) CHINOOK_LOSS);
-                if (index == -(CHINOOK_TIE + 1))
-                        return((long) CHINOOK_TIE);
-                if (index == DB_UNKNOWN)
-                        return((long) DB_UNKNOWN);
-                return(index);
+    /* Check if we already know its value because the db is all one value */
+    if ((int32_t) index < 0) {
+        if (index == -(CHINOOK_WIN + 1))
+            return ((long) CHINOOK_WIN);
+        if (index == -(CHINOOK_LOSS + 1))
+            return ((long) CHINOOK_LOSS);
+        if (index == -(CHINOOK_TIE + 1))
+            return ((long) CHINOOK_TIE);
+        if (index == DB_UNKNOWN)
+            return ((long) DB_UNKNOWN);
+        return (index);
+    }
+
+    /* Have to find the value */
+    start = dbentry->startaddr;
+    end = dbentry->endaddr;
+    byte = dbentry->startbyte;
+    dbindex = DBIndex;
+    dbbufptr = DBBufPtr;
+
+    /* Find the block where the position is located.  Do a binary   */
+    /* on the blocks of the databse to find which block the position */
+    /* must be in.                                                  */
+    while (start < end) {
+        middle = (start + end + 1) / 2;
+        if (dbindex[middle] <= index)
+            start = middle;
+        else
+            end = middle - 1;
+    }
+    if (start != end) {
+        Display ();
+        printf ("ERROR: cannot agree %d %d \n", start, end);
+        exit (-1);
+    }
+
+    middle = start;
+
+    /* Is this block in memory?  If not, read it in */
+    if (dbbufptr[middle] == -1) {
+        /* Need a buffer to read into.  Look at the top one (DBTop) */
+        /* If has some data, mark it as invalid */
+        if (DBBuffer[DBTop].block >= 0)
+            DBBufPtr[DBBuffer[DBTop].block] = -1;
+        use = DBTop;
+
+        /* Seek to the block - block# * 1024 */
+        if (lseek (DBFile, ((off_t) middle * DISK_BLOCK), 0) == -1) {
+            printf ("ERROR: dblookup seek failed\n");
+            return ((long) DB_UNKNOWN);
         }
 
-        /* Have to find the value */
-        start = dbentry->startaddr;
-        end   = dbentry->endaddr;
-        byte  = dbentry->startbyte;
-        dbindex  = DBIndex;
-        dbbufptr = DBBufPtr;
+        /* Read in the DISK_BLOCK bytes */
+        cx = read (DBFile, &DBBuffer[use].data[0], DISK_BLOCK);
+        if (cx != DISK_BLOCK)
+            /* Check for error - should get DISK_BLOCK bytes, */
+            /* except for the last block */
+            if (middle != MaxBlock) {
+                printf ("ERROR: dblookup read failed %d %d %d %d %d\n", cx,
+                        start, end, middle, MaxBlock);
+                return ((long) DB_UNKNOWN);
+            }
+        /* Mark this buffer as in use */
+        dbbufptr[middle] = use;
 
-        /* Find the block where the position is located.  Do a binary   */
-        /* on the blocks of the databse to find which block the position*/
-        /* must be in.                                                  */
-        while (start < end) {
-                middle = (start + end + 1) / 2;
-                if (dbindex[middle] <= index)
-                        start = middle;
-                else    end = middle - 1;
+        /* Fix linked list to point to the next oldest entry */
+        DBTop = DBBuffer[DBTop].forward;
+        DBBuffer[use].block = middle;
+    }
+    else {
+        /* In memory - no i/o necessary.  Adjust linked list so this */
+        /* block is moved to the end of the list, since it is the */
+        /* most recently used.                                  */
+        use = dbbufptr[middle];
+        if (DBTop == use)
+            DBTop = DBBuffer[DBTop].forward;
+        else {
+            back = DBBuffer[use].backward;
+            fwd = DBBuffer[use].forward;
+            DBBuffer[back].forward = fwd;
+            DBBuffer[fwd].backward = back;
+
+            back = DBBuffer[DBTop].backward;
+            DBBuffer[back].forward = use;
+            DBBuffer[use].backward = back;
+            DBBuffer[use].forward = DBTop;
+            DBBuffer[DBTop].backward = use;
         }
-        if (start != end)
-        {
-                Display();
-                printf("ERROR: cannot agree %d %d \n", start, end);
-                exit(-1);
-        }
+    }
 
-        middle = start;
+    /* We have the block - now need to find the position value. */
+    if (start == dbentry->startaddr) {
+        i = byte;
+        cindex = 0;
+    }
+    else {
+        i = 0;
+        cindex = dbindex[start];
+    }
+    def = dbentry->defaulttype;
+    buffer = &DBBuffer[use].data[0];
 
-        /* Is this block in memory?  If not, read it in */
-        if (dbbufptr[middle] == -1)
-        {
-                /* Need a buffer to read into.  Look at the top one (DBTop)*/
-                /* If has some data, mark it as invalid */
-                if (DBBuffer[DBTop].block   >= 0)
-                    DBBufPtr[DBBuffer[DBTop].block] = -1;
-                use = DBTop;
-
-                /* Seek to the block - block# * 1024 */
-                if (lseek(DBFile, ((off_t) middle * DISK_BLOCK), 0) == -1)
-                {
-                        printf("ERROR: dblookup seek failed\n");
-                        return((long) DB_UNKNOWN);
-                }
-
-                /* Read in the DISK_BLOCK bytes */
-                cx = read(DBFile, &DBBuffer[use].data[0],DISK_BLOCK);
-                if (cx != DISK_BLOCK)
-                        /* Check for error - should get DISK_BLOCK bytes,*/
-                        /* except for the last block */
-                        if (middle != MaxBlock)
-                        {
-                                printf("ERROR: dblookup read failed %d %d %d %d %d\n",cx,start,end,middle,MaxBlock);
-                                return((long) DB_UNKNOWN);
-                        }
-                /* Mark this buffer as in use */
-                dbbufptr[middle] = use;
-
-                /* Fix linked list to point to the next oldest entry */
-                DBTop = DBBuffer[DBTop].forward;
-                DBBuffer[use].block = middle;
+    /* Scan through block until we find the position.  cindex is    */
+    /* current position number; i is the starting byte.             */
+    for (; i < DISK_BLOCK; i++) {
+        c = buffer[i] & 0xff;
+        if (c > 242) {
+            /* Byte is a "skip" byte.  Skip tells us how many */
+            /* positions in a row have the same value.       */
+            cindex += Skip[c - 242];
+            if (index < cindex) {
+                /* If "skip"ing takes us past the pos'n */
+                /* number, we know the positions value.  */
+                result = def;
+                break;
+            }
         }
         else {
-                /* In memory - no i/o necessary.  Adjust linked list so this */
-                /* block is moved to the end of the list, since it is the */
-                /* most recently used.                                  */
-                use = dbbufptr[middle];
-                if (DBTop == use)
-                        DBTop = DBBuffer[DBTop].forward;
-                else {
-                        back = DBBuffer[use].backward;
-                        fwd  = DBBuffer[use].forward;
-                        DBBuffer[back].forward = fwd; 
-                        DBBuffer[fwd].backward = back;
-
-                        back = DBBuffer[DBTop].backward;
-                        DBBuffer[back].forward = use;
-                        DBBuffer[use].backward = back;
-                        DBBuffer[use].forward = DBTop;
-                        DBBuffer[DBTop].backward = use;
-                }
+            /* Byte contains 5 values */
+            if (cindex + 5 <= index)
+                /* Did not find the position - skip 5 pos */
+                cindex += 5;
+            else {
+                /* Found - extract the value */
+                diff = index - cindex;
+                result = c % Div[5 - diff + 1];
+                result = result / Div[5 - diff];
+                break;
+            }
         }
+    }
 
-        /* We have the block - now need to find the position value. */
-        if( start == dbentry->startaddr )
-        {
-                i = byte;
-                cindex = 0;
-        }
-        else {
-                i = 0;
-                cindex = dbindex[ start ];
-        }
-        def = dbentry->defaulttype;
-        buffer = &DBBuffer[ use ].data[ 0 ];
+    /* Safety check */
+    if (i < 0 || i >= DISK_BLOCK) {
+        Display ();
+        printf ("ERROR: scanned block and did not find\n");
+        printf ("INDEX %d CINDEX %d\n", index, cindex);
+        printf ("Start %d end %d byte %d = middle %d\n",
+                dbentry->startaddr,
+                dbentry->endaddr, dbentry->startbyte, middle);
+        exit (-1);
+    }
 
-        /* Scan through block until we find the position.  cindex is    */
-        /* current position number; i is the starting byte.             */
-        for( ; i < DISK_BLOCK; i++ )
-        {
-                c = buffer[ i ] & 0xff;
-                if( c > 242 )
-                {
-                        /* Byte is a "skip" byte.  Skip tells us how many*/
-                        /* positions in a row have the same value.       */
-                        cindex += Skip[ c - 242 ];
-                        if( index < cindex )
-                        {
-                                /* If "skip"ing takes us past the pos'n */
-                                /* number, we know the positions value.  */
-                                result = def;
-                                break;
-                        }
-                }                     
-                else {   
-                        /* Byte contains 5 values */
-                        if( cindex + 5 <= index )
-                                /* Did not find the position - skip 5 pos */
-                                cindex += 5;     
-                        else {                   
-                                /* Found - extract the value */
-                                diff = index - cindex;
-                                result = c % Div[ 5 - diff + 1 ];
-                                result = result / Div[ 5 - diff ];
-                                break;                            
-                        }                                         
-                }                     
-        }                
-
-        /* Safety check */
-        if (i < 0 || i >= DISK_BLOCK)
-        {
-                Display();
-                printf("ERROR: scanned block and did not find\n");
-                printf("INDEX %d CINDEX %d\n", index, cindex);
-                printf("Start %d end %d byte %d = middle %d\n",
-                        dbentry->startaddr,
-                        dbentry->endaddr,
-                        dbentry->startbyte, middle);
-                exit(-1);
-        }
-
-        if (result == CHINOOK_WIN)
-                return((long) CHINOOK_WIN);
-        if (result == CHINOOK_LOSS)
-                return((long) CHINOOK_LOSS);
-        return((long) CHINOOK_TIE);
+    if (result == CHINOOK_WIN)
+        return ((long) CHINOOK_WIN);
+    if (result == CHINOOK_LOSS)
+        return ((long) CHINOOK_LOSS);
+    return ((long) CHINOOK_TIE);
 }
 
 
-DB_REC_PTR_T dbValInit(uint32_t nbk, uint32_t nwk, uint32_t nbp, uint32_t nwp, uint32_t rankbp, uint32_t rankwp)
+DB_REC_PTR_T
+dbValInit (uint32_t nbk, uint32_t nwk, uint32_t nbp, uint32_t nwp,
+           uint32_t rankbp, uint32_t rankwp)
 {
-        return(dbCreate(PIECES));
+    return (dbCreate (PIECES));
 }
 
 /*
  * Allocates memory for a DB_REC_T and initializes its scalars and SIdx.
  */
-DB_REC_PTR_T dbCreate(uint32_t nbk, uint32_t nwk, uint32_t nbp, uint32_t nwp, uint32_t rankbp, uint32_t rankwp)
+DB_REC_PTR_T
+dbCreate (uint32_t nbk, uint32_t nwk, uint32_t nbp, uint32_t nwp,
+          uint32_t rankbp, uint32_t rankwp)
 {
-        DB_REC_PTR_T p;
+    DB_REC_PTR_T p;
 
-        p = (DB_REC_PTR_T) malloc(DB_REC_SZ);
-        /*
-         * Compute the number of black and white king configurations for this
-         * database slice
-         */
-        p->rangeBK = Choose(32 - nbp - nwp, nbk);
-        p->rangeWK = Choose(32 - nbp - nwp - nbk, nwk);
+    p = (DB_REC_PTR_T) malloc (DB_REC_SZ);
+    /*
+     * Compute the number of black and white king configurations for this
+     * database slice
+     */
+    p->rangeBK = Choose (32 - nbp - nwp, nbk);
+    p->rangeWK = Choose (32 - nbp - nwp - nbk, nwk);
 
-        /* Sets p->sidxbase and p->sidxindex */
-        sidxCreate(p, nbp, nwp, rankbp, rankwp,
-                        &(p->numPos), &(p->firstBPIdx), &(p->nextBPIdx));
-        p->numPos *= p->rangeBK * p->rangeWK;
-        p->nBP = nbp;
-        p->nWP = nwp;
-        p->nBK = nbk;
-        p->nWK = nwk;
-        p->rankBP = rankbp;
-        p->rankWP = rankwp;
-        return(p);
+    /* Sets p->sidxbase and p->sidxindex */
+    sidxCreate (p, nbp, nwp, rankbp, rankwp,
+                &(p->numPos), &(p->firstBPIdx), &(p->nextBPIdx));
+    p->numPos *= p->rangeBK * p->rangeWK;
+    p->nBP = nbp;
+    p->nWP = nwp;
+    p->nBK = nbk;
+    p->nWK = nwk;
+    p->rankBP = rankbp;
+    p->rankWP = rankwp;
+    return (p);
 }
 
 #define LeadWP (7 - (BoardPos[WPBOARD][db->nWP-1] >> 2))
@@ -1407,110 +1380,111 @@ DB_REC_PTR_T dbCreate(uint32_t nbk, uint32_t nwk, uint32_t nbp, uint32_t nwp, ui
  * dbLocbvToSubIdx - Compute a position index
  */
 
-int dbLocbvToSubIdx( DBENTRYPTR * dbentry )
+int
+dbLocbvToSubIdx (DBENTRYPTR * dbentry)
 {
-	uint32_t	nbk, nwk, nbp, nwp, rankbp, rankwp;
-	uint32_t	bppos[MAX_PIECES], wppos[MAX_PIECES];
-	uint32_t	bkpos[MAX_PIECES], wkpos[MAX_PIECES];
-	uint32_t	XXhits[MAX_PIECES];
-	uint32_t	bpidx, wpidx, bkidx, wkidx, firstidx;
-	uint32_t	vec, Blackbv, Whitebv, Kingbv;
-	int32_t		Index, pos;
-	uint32_t      *	baseptr;
-	uint8_t	      *	indexptr;
-	DB_REC_PTR_T	db;
-	union {
-		uint32_t U;
-		uint8_t  C[4];
-	} a, b;
+    uint32_t nbk, nwk, nbp, nwp, rankbp, rankwp;
+    uint32_t bppos[MAX_PIECES], wppos[MAX_PIECES];
+    uint32_t bkpos[MAX_PIECES], wkpos[MAX_PIECES];
+    uint32_t XXhits[MAX_PIECES];
+    uint32_t bpidx, wpidx, bkidx, wkidx, firstidx;
+    uint32_t vec, Blackbv, Whitebv, Kingbv;
+    int32_t Index, pos;
+    uint32_t *baseptr;
+    uint8_t *indexptr;
+    DB_REC_PTR_T db;
+    union
+    {
+        uint32_t U;
+        uint8_t C[4];
+    } a, b;
 
-	/* If it's white to move, reverse the board & look up black to move. */
-	if (Turn == WHITE) {
-		a.U = Locbv[WHITE];
-		b.C[3] = ReverseByte[a.C[0]];
-		b.C[2] = ReverseByte[a.C[1]];
-		b.C[1] = ReverseByte[a.C[2]];
-		b.C[0] = ReverseByte[a.C[3]];
-		Blackbv = b.U;
-		a.U = Locbv[BLACK];
-		b.C[3] = ReverseByte[a.C[0]];
-		b.C[2] = ReverseByte[a.C[1]];
-		b.C[1] = ReverseByte[a.C[2]];
-		b.C[0] = ReverseByte[a.C[3]];
-		Whitebv = b.U;
-		a.U = Locbv[KINGS];
-		b.C[3] = ReverseByte[a.C[0]];
-		b.C[2] = ReverseByte[a.C[1]];
-		b.C[1] = ReverseByte[a.C[2]];
-		b.C[0] = ReverseByte[a.C[3]];
-		Kingbv = b.U;
-	}
-	else {
-		Blackbv = Locbv[BLACK];
-		Whitebv = Locbv[WHITE];
-		Kingbv = Locbv[KINGS];
-	}
+    /* If it's white to move, reverse the board & look up black to move. */
+    if (Turn == WHITE) {
+        a.U = Locbv[WHITE];
+        b.C[3] = ReverseByte[a.C[0]];
+        b.C[2] = ReverseByte[a.C[1]];
+        b.C[1] = ReverseByte[a.C[2]];
+        b.C[0] = ReverseByte[a.C[3]];
+        Blackbv = b.U;
+        a.U = Locbv[BLACK];
+        b.C[3] = ReverseByte[a.C[0]];
+        b.C[2] = ReverseByte[a.C[1]];
+        b.C[1] = ReverseByte[a.C[2]];
+        b.C[0] = ReverseByte[a.C[3]];
+        Whitebv = b.U;
+        a.U = Locbv[KINGS];
+        b.C[3] = ReverseByte[a.C[0]];
+        b.C[2] = ReverseByte[a.C[1]];
+        b.C[1] = ReverseByte[a.C[2]];
+        b.C[0] = ReverseByte[a.C[3]];
+        Kingbv = b.U;
+    }
+    else {
+        Blackbv = Locbv[BLACK];
+        Whitebv = Locbv[WHITE];
+        Kingbv = Locbv[KINGS];
+    }
 
-	/* Extract and sort the black pawns */
-	vec = RotateBoard(Blackbv & ~ Kingbv);
-	EXTRACT_PIECES(vec, nbp, bppos);
-	SquishBP(nbp, bppos);
+    /* Extract and sort the black pawns */
+    vec = RotateBoard (Blackbv & ~Kingbv);
+    EXTRACT_PIECES (vec, nbp, bppos);
+    SquishBP (nbp, bppos);
 
-	/* Extract and sort the white pawns */
-	vec = RotateBoard(Whitebv & ~ Kingbv);
-	EXTRACT_PIECES(vec, nwp, wppos);
-	SquishWP(nwp, nbp, wppos, bppos);
+    /* Extract and sort the white pawns */
+    vec = RotateBoard (Whitebv & ~Kingbv);
+    EXTRACT_PIECES (vec, nwp, wppos);
+    SquishWP (nwp, nbp, wppos, bppos);
 
-	/* Extract and sort the black kings */
-	vec = RotateBoard(Blackbv & Kingbv);
-	EXTRACT_PIECES(vec, nbk, bkpos);
-	SquishBK(nbk, nwp, nbp, bkpos, wppos, bppos);
+    /* Extract and sort the black kings */
+    vec = RotateBoard (Blackbv & Kingbv);
+    EXTRACT_PIECES (vec, nbk, bkpos);
+    SquishBK (nbk, nwp, nbp, bkpos, wppos, bppos);
 
-	/* Extract and sort the white kings */
-	vec = RotateBoard(Whitebv & Kingbv);
-	EXTRACT_PIECES(vec, nwk, wkpos);
-	SquishWK(nwk, nbk, nwp, nbp, wkpos, bkpos, wppos, bppos);
+    /* Extract and sort the white kings */
+    vec = RotateBoard (Whitebv & Kingbv);
+    EXTRACT_PIECES (vec, nwk, wkpos);
+    SquishWK (nwk, nbk, nwp, nbp, wkpos, bkpos, wppos, bppos);
 
-	/* Only consider positions where black dominates white */
-	*dbentry = DBTable[ DBINDEX( nbk, nwk, nbp, nwp ) ];
-	if( *dbentry == 0 )
-	{
-		printf( "ERROR: cannot happen!\n" );
-		exit( -1 );
-	}
-	if( nwp == 0 )
-		*dbentry += rankbp;
-	else	*dbentry += ( rankbp * 7 + rankwp );
-	if( *dbentry == NULL )
-		return( (unsigned) (DB_UNKNOWN - 1) );
+    /* Only consider positions where black dominates white */
+    *dbentry = DBTable[DBINDEX (nbk, nwk, nbp, nwp)];
+    if (*dbentry == 0) {
+        printf ("ERROR: cannot happen!\n");
+        exit (-1);
+    }
+    if (nwp == 0)
+        *dbentry += rankbp;
+    else
+        *dbentry += (rankbp * 7 + rankwp);
+    if (*dbentry == NULL)
+        return ((unsigned) (DB_UNKNOWN - 1));
 
-	if( (*dbentry)->value != CHINOOK_UNKNOWN )
-		return( (unsigned) -( (*dbentry)->value + 1 ) );
+    if ((*dbentry)->value != CHINOOK_UNKNOWN)
+        return ((unsigned) -((*dbentry)->value + 1));
 
-	/* Determine wpidx, then combine bp & wp indices into bpidx. */
-	db    = (*dbentry)->db;
-	if( db == NULL )
-		return( (unsigned) (DB_UNKNOWN - 1) );
+    /* Determine wpidx, then combine bp & wp indices into bpidx. */
+    db = (*dbentry)->db;
+    if (db == NULL)
+        return ((unsigned) (DB_UNKNOWN - 1));
 
-	baseptr  = db->sidxbase;
-	indexptr = db->sidxindex;
-	bpidx -= db->firstBPIdx;
+    baseptr = db->sidxbase;
+    indexptr = db->sidxindex;
+    bpidx -= db->firstBPIdx;
 
-	/*
-	 * Compute the position index by:
-	 *
-	 * Index = (BASE * rangeBK * rangeWK) +			# BP positions
-	 *	   ((wpidx - FIRST) * rangeBK * rangeWK) +	# WP positions
-	 *	   (bkidx * rangeWK) +				# BK positions
-	 *	    wkidx					# WK positions
-	 */
-	firstidx = Choose( ( indexptr[bpidx] >> 3 ),
-			   ( indexptr[bpidx] & 07 ) );
-	bpidx = baseptr[bpidx] + wpidx - firstidx;
-	Index = (((bpidx * db->rangeBK) + bkidx) * db->rangeWK) + wkidx;
-	return(Index);
+    /*
+     * Compute the position index by:
+     *
+     * Index = (BASE * rangeBK * rangeWK) +                 # BP positions
+     *         ((wpidx - FIRST) * rangeBK * rangeWK) +      # WP positions
+     *         (bkidx * rangeWK) +                          # BK positions
+     *          wkidx                                       # WK positions
+     */
+    firstidx = Choose ((indexptr[bpidx] >> 3), (indexptr[bpidx] & 07));
+    bpidx = baseptr[bpidx] + wpidx - firstidx;
+    Index = (((bpidx * db->rangeBK) + bkidx) * db->rangeWK) + wkidx;
+    return (Index);
 
-} /* dbLocbvToSubIdx() */
+}                               /* dbLocbvToSubIdx() */
 
 /*
  * RotateBoard - convert squares from Chinook's representation to the
@@ -1524,15 +1498,16 @@ int dbLocbvToSubIdx( DBENTRYPTR * dbentry )
  * See the comment near RotBoard (above) for a mapping of the squares from
  * Chinook's representation to the database representation.
  */
-uint32_t RotateBoard(uint32_t vecrot)
+uint32_t
+RotateBoard (uint32_t vecrot)
 {
-        uint32_t vec;
+    uint32_t vec;
 
-        vec  = (RotBoard[(vecrot >> 24) & 0xFF]);
-        vec |= (RotBoard[(vecrot >> 16) & 0xFF] << 1);
-        vec |= (RotBoard[(vecrot >>  8) & 0xFF] << 2);
-        vec |= (RotBoard[vecrot & 0xFF] << 3);
-        return(vec);
+    vec = (RotBoard[(vecrot >> 24) & 0xFF]);
+    vec |= (RotBoard[(vecrot >> 16) & 0xFF] << 1);
+    vec |= (RotBoard[(vecrot >> 8) & 0xFF] << 2);
+    vec |= (RotBoard[vecrot & 0xFF] << 3);
+    return (vec);
 }
 
 /*
@@ -1576,121 +1551,123 @@ uint32_t RotateBoard(uint32_t vecrot)
  */
 
 void
-sidxCreate(DB_REC_PTR_T p, uint32_t nBP, uint32_t nWP, uint32_t rankBPL, uint32_t rankWPL, uint32_t *numPos, uint32_t *firstBPLIdx, uint32_t *nextBPLIdx)
-                       
-                                        
+sidxCreate (DB_REC_PTR_T p, uint32_t nBP, uint32_t nWP, uint32_t rankBPL,
+            uint32_t rankWPL, uint32_t * numPos, uint32_t * firstBPLIdx,
+            uint32_t * nextBPLIdx)
                                                  /* VAR parameters */
 {
-        uint32_t firstWPLIdx=0, nextWPLIdx=0, Base;
-	uint32_t * baseptr;
-        unsigned char  * indexptr;
-        uint32_t Maximum;
-        int32_t nsqr1, nsqr2;
-        int32_t fsq=0, fpc=0;
+    uint32_t firstWPLIdx = 0, nextWPLIdx = 0, Base;
+    uint32_t *baseptr;
+    unsigned char *indexptr;
+    uint32_t Maximum;
+    int32_t nsqr1, nsqr2;
+    int32_t fsq = 0, fpc = 0;
 
-        if (nBP == 0) {
-                *firstBPLIdx = 0;
-                *nextBPLIdx = 1;
-        }
-        else {
-                /*
-                 * Determine the number of black positions which have one
-                 * or more pawns on rankBPL.  This number is obtained by
-                 * (4*(rank+1) choose nBP) - (4*rank choose nBP).
-                 */
-                *firstBPLIdx = Choose(rankBPL << 2, nBP);
-                *nextBPLIdx  = Choose((rankBPL + 1) << 2, nBP);
+    if (nBP == 0) {
+        *firstBPLIdx = 0;
+        *nextBPLIdx = 1;
+    }
+    else {
+        /*
+         * Determine the number of black positions which have one
+         * or more pawns on rankBPL.  This number is obtained by
+         * (4*(rank+1) choose nBP) - (4*rank choose nBP).
+         */
+        *firstBPLIdx = Choose (rankBPL << 2, nBP);
+        *nextBPLIdx = Choose ((rankBPL + 1) << 2, nBP);
 
 #ifdef UNUSED
-                /*
-                 * Don't fill the entire rank with black pawns; leave room
-                 * for one white pawn.
-                 */
-                if (nBP == 4 && (rankBPL + rankWPL) == 7)
-                        (*nextBPLIdx)--;
+        /*
+         * Don't fill the entire rank with black pawns; leave room
+         * for one white pawn.
+         */
+        if (nBP == 4 && (rankBPL + rankWPL) == 7)
+            (*nextBPLIdx)--;
 #endif
+    }
+
+    /*
+     * Allocate the secondary index array.  This array holds the
+     * cumulative number of white checker positions for each black
+     * checker configuration.
+     */
+    p->sidxbase = baseptr = (unsigned *) malloc ((unsigned)
+                                                 (1 + *nextBPLIdx -
+                                                  *firstBPLIdx) *
+                                                 (unsigned)
+                                                 sizeof (unsigned));
+    p->sidxindex = indexptr =
+        (unsigned char *) malloc ((unsigned) (1 + *nextBPLIdx - *firstBPLIdx)
+                                  * (unsigned) sizeof (unsigned char));
+
+    /*
+     * This array holds the starting index for each white checker
+     * configuration.  It is used later in dbLocbvToSubIdx to compute
+     * a position index.
+     */
+
+    /* initialize the array with FIRST & BASE */
+    Base = 0;
+    if (nWP == 0) {
+        firstWPLIdx = 0;
+        fsq = 0;
+        fpc = BICOEF - 1;
+        nextWPLIdx = 1;
+    }
+    if (nBP) {
+        SaveIndex (BPBOARD);
+        InitIndex (BPBOARD, nBP, MAX (rankBPL << 2, nBP - 1));
+    }
+    /* Do, for each black checker configuation... */
+    for (Maximum = *nextBPLIdx - *firstBPLIdx; Maximum; Maximum--) {
+        if (nWP) {
+            /* Compute available squares for white checkers */
+            if (nBP) {
+                nsqr1 = Nsq (rankWPL - 1, BoardPos[BPBOARD], nBP);
+                nsqr2 = Nsq (rankWPL, BoardPos[BPBOARD], nBP);
+            }
+            else {
+                nsqr1 = (rankWPL) << 2;
+                nsqr2 = (rankWPL + 1) << 2;
+            }
+            /*
+             * nextWPLIdx - firstWPLidx represents the number of
+             * white checker positions for this black checker
+             * configuration
+             */
+            firstWPLIdx = Choose (nsqr1, nWP);
+            nextWPLIdx = Choose (nsqr2, nWP);
+
+            /*
+             * Save the starting index for this white checker
+             * configuration.  This is used later to compute
+             * the index for a position.
+             */
+            fsq = nsqr1;
+            fpc = nWP;
         }
+
+        /* store these values for future reference */
+        *baseptr = Base;
+        *indexptr = (fsq << 3) | fpc;
+        baseptr++;
+        indexptr++;
 
         /*
-         * Allocate the secondary index array.  This array holds the
-         * cumulative number of white checker positions for each black
-         * checker configuration.
+         * Add the number of white checker positions to the cumulative
+         * amount
          */
-        p->sidxbase = baseptr = (unsigned *) malloc (
-                (unsigned) (1 + *nextBPLIdx - *firstBPLIdx) *
-                (unsigned) sizeof( unsigned ) );
-	p->sidxindex = indexptr = (unsigned char *) malloc(
-                (unsigned) (1 + *nextBPLIdx - *firstBPLIdx) *
-                (unsigned) sizeof( unsigned char ) );
+        Base += (nextWPLIdx - firstWPLIdx);
 
-        /*
-         * This array holds the starting index for each white checker
-         * configuration.  It is used later in dbLocbvToSubIdx to compute
-         * a position index.
-         */
-
-        /* initialize the array with FIRST & BASE */
-        Base = 0;
-        if (nWP == 0) {
-                firstWPLIdx = 0;
-                fsq = 0;
-                fpc = BICOEF - 1;
-                nextWPLIdx  = 1;
-        }
-        if (nBP) {
-                SaveIndex(BPBOARD);
-                InitIndex(BPBOARD, nBP, MAX(rankBPL << 2, nBP-1));
-        }
-        /* Do, for each black checker configuation... */
-        for (Maximum = *nextBPLIdx - *firstBPLIdx; Maximum; Maximum--) {
-                if (nWP) {
-                        /* Compute available squares for white checkers */
-                        if (nBP) {
-                                nsqr1 = Nsq(rankWPL-1, BoardPos[BPBOARD], nBP);
-                                nsqr2 = Nsq(rankWPL,   BoardPos[BPBOARD], nBP);
-                        }
-                        else {
-                                nsqr1 = (rankWPL)   << 2;
-                                nsqr2 = (rankWPL+1) << 2;
-                        }
-                        /*
-                         * nextWPLIdx - firstWPLidx represents the number of
-                         * white checker positions for this black checker
-                         * configuration
-                         */
-                        firstWPLIdx = Choose(nsqr1, nWP);
-                        nextWPLIdx  = Choose(nsqr2, nWP);
-
-                        /*
-                         * Save the starting index for this white checker
-                         * configuration.  This is used later to compute
-                         * the index for a position.
-                         */
-                        fsq = nsqr1;
-                        fpc = nWP;
-                }
-
-                /* store these values for future reference */
-                *baseptr = Base;
-                *indexptr = ( fsq << 3 ) | fpc;
-                 baseptr++;
-	 	 indexptr++;
-
-                /*
-                 * Add the number of white checker positions to the cumulative
-                 * amount
-                 */
-                Base += (nextWPLIdx - firstWPLIdx);
-
-                /* Get the next black checker configuration */
-                if (nBP)
-                        NextIndex(BPBOARD);
-        }
-        /* Restore the original black checker configuration */
+        /* Get the next black checker configuration */
         if (nBP)
-                LoadIndex(BPBOARD);
-        *numPos = Base;
-} /* sidxCreate() */
+            NextIndex (BPBOARD);
+    }
+    /* Restore the original black checker configuration */
+    if (nBP)
+        LoadIndex (BPBOARD);
+    *numPos = Base;
+}                               /* sidxCreate() */
 
 /*
  * Nsq - return the number of squares available for placement of the white
@@ -1704,16 +1681,17 @@ sidxCreate(DB_REC_PTR_T p, uint32_t nBP, uint32_t nWP, uint32_t rankBPL, uint32_
  * Although this routine is generalized, it is used only for determining white
  * checker squares.
  */
-long Nsq(uint32_t rank, WHERE_T *Ppos, uint32_t nP)
+long
+Nsq (uint32_t rank, WHERE_T * Ppos, uint32_t nP)
 {
-        long pawnhit  = ((7 - rank) << 2);
-        long nsquares = ((rank + 1) << 2);
+    long pawnhit = ((7 - rank) << 2);
+    long nsquares = ((rank + 1) << 2);
 
-        while (nP--) {
-                if (*Ppos++ >= pawnhit)
-                        nsquares--;
-        }
-        return(nsquares);
+    while (nP--) {
+        if (*Ppos++ >= pawnhit)
+            nsquares--;
+    }
+    return (nsquares);
 }
 
 /*
@@ -1742,15 +1720,15 @@ long Nsq(uint32_t rank, WHERE_T *Ppos, uint32_t nP)
  *      n       starting square number of highest ranked piece
  */
 void
-InitIndex(uint32_t off, uint32_t k, uint32_t n)
+InitIndex (uint32_t off, uint32_t k, uint32_t n)
 {
-        WHERE_T *BPP, *BPE;
+    WHERE_T *BPP, *BPE;
 
-        /* Initialize all the pieces in the starting position. */
-        BPK[off] = &BoardPos[off][k];
-        for (BPP = BoardPos[off], BPE = &BPK[off][-1]; BPP < BPE; BPP++)
-                *BPP = (long)(BPP - BoardPos[off]);
-        *BPE = n;
+    /* Initialize all the pieces in the starting position. */
+    BPK[off] = &BoardPos[off][k];
+    for (BPP = BoardPos[off], BPE = &BPK[off][-1]; BPP < BPE; BPP++)
+        *BPP = (long) (BPP - BoardPos[off]);
+    *BPE = n;
 }
 
 /*
@@ -1769,15 +1747,15 @@ InitIndex(uint32_t off, uint32_t k, uint32_t n)
  * The number of times NextIndex is called is known in advance so no overflow
  * checking is necessary.
  */
-        
-void
-NextIndex(uint32_t off)
-{
-        WHERE_T *BPP, *BPE = &BPK[off][-1];
 
-        for (BPP = BoardPos[off]; BPP < BPE && *BPP == BPP[1] - 1; BPP++)
-                *BPP = (long)(BPP - BoardPos[off]);
-        *BPP += 1;
+void
+NextIndex (uint32_t off)
+{
+    WHERE_T *BPP, *BPE = &BPK[off][-1];
+
+    for (BPP = BoardPos[off]; BPP < BPE && *BPP == BPP[1] - 1; BPP++)
+        *BPP = (long) (BPP - BoardPos[off]);
+    *BPP += 1;
 }
 
 /*
@@ -1788,15 +1766,15 @@ NextIndex(uint32_t off)
  *      off     piece type (BPBOARD, WPBOARD, BKBOARD, or WKBOARD)
  */
 void
-SaveIndex(uint32_t off)
+SaveIndex (uint32_t off)
 {
-        WHERE_T *BPP = BoardPos[off];
-        WHERE_T *pos = BPsave;
-        long k = 12;
+    WHERE_T *BPP = BoardPos[off];
+    WHERE_T *pos = BPsave;
+    long k = 12;
 
-        BPKsave = BPK[off];
-        while (k--)
-                *pos++ = *BPP++;
+    BPKsave = BPK[off];
+    while (k--)
+        *pos++ = *BPP++;
 }
 
 /*
@@ -1807,15 +1785,15 @@ SaveIndex(uint32_t off)
  *      off     piece type (BPBOARD, WPBOARD, BKBOARD, or WKBOARD)
  */
 void
-LoadIndex(uint32_t off)
+LoadIndex (uint32_t off)
 {
-        WHERE_T *BPP = BoardPos[off];
-        WHERE_T *pos = BPsave;
-        long k = 12;
+    WHERE_T *BPP = BoardPos[off];
+    WHERE_T *pos = BPsave;
+    long k = 12;
 
-        BPK[off] = BPKsave;
-        while (k--)
-                *BPP++ = *pos++;
+    BPK[off] = BPKsave;
+    while (k--)
+        *BPP++ = *pos++;
 }
 
 /*
@@ -1842,13 +1820,13 @@ LoadIndex(uint32_t off)
  *              | 3 |       | 2 |       | 1 |
  */
 uint32_t
-DBrevindex(uint32_t *pos, uint32_t k)
+DBrevindex (uint32_t * pos, uint32_t k)
 {
-        uint32_t offset = 0;
+    uint32_t offset = 0;
 
-        while (k > 0)
-                offset += Choose(*pos++, k--);
-        return(offset);
+    while (k > 0)
+        offset += Choose (*pos++, k--);
+    return (offset);
 }
 
 /*
@@ -1863,51 +1841,51 @@ DBrevindex(uint32_t *pos, uint32_t k)
  * the index of the white checkers.
  */
 uint32_t
-DBindex(uint32_t *pos, uint32_t k)
+DBindex (uint32_t * pos, uint32_t k)
 {
-        uint32_t offset = 0;
+    uint32_t offset = 0;
 
-        pos = &pos[k - 1];
-        while (k > 0)
-                offset += Choose(*pos--, k--);
-        return(offset);
+    pos = &pos[k - 1];
+    while (k > 0)
+        offset += Choose (*pos--, k--);
+    return (offset);
 }
 
 #ifndef MILHOUSE
 int
-main(void)
+main (void)
 {
-        long score;
-        char cmd;
-	int i;
-	unsigned int c;
+    long score;
+    char cmd;
+    int i;
+    unsigned int c;
 
-        printf("Welcome to the Chinook Checkers Program\n");
+    printf ("Welcome to the Chinook Checkers Program\n");
 
-        printf("\nWait for initialization...\n");
-	c = 0;
-        NextBit[ 0 ] = 0;
-        for( i = 1; i < ( 1<<16 ); i++ )
-        {
-                if( ( i & ( 1<<c ) ) == 0 )
-                        c++;
-                NextBit[ i ] = c;
-        }
+    printf ("\nWait for initialization...\n");
+    c = 0;
+    NextBit[0] = 0;
+    for (i = 1; i < (1 << 16); i++) {
+        if ((i & (1 << c)) == 0)
+            c++;
+        NextBit[i] = c;
+    }
 
-        /* Locbv is our board - 32 bits for white, blank and kings */
-        Locbv[WHITE] = Locbv[BLACK] = Locbv[KINGS] = 0;
+    /* Locbv is our board - 32 bits for white, blank and kings */
+    Locbv[WHITE] = Locbv[BLACK] = Locbv[KINGS] = 0;
 
-        /* Read in the database index information */
-        DBInit();
+    /* Read in the database index information */
+    DBInit ();
 
-        /* Simple interface to illustrate database usage */
-        printf( "b\tdisplay board\n" );
-        printf( "B\tBlack to move\n" );
-        printf( "q\tquit\n" );
-        printf( "Q\tQuit\n" );
-        printf( "s\tsetup a position (from 1-4, 5-9, etc, using characters \"wWbB. \"\n" );
-        printf( "W\tWhite to move\n" );
-        printf( "R\tResult of database query\n" );
+    /* Simple interface to illustrate database usage */
+    printf ("b\tdisplay board\n");
+    printf ("B\tBlack to move\n");
+    printf ("q\tquit\n");
+    printf ("Q\tQuit\n");
+    printf
+        ("s\tsetup a position (from 1-4, 5-9, etc, using characters \"wWbB. \"\n");
+    printf ("W\tWhite to move\n");
+    printf ("R\tResult of database query\n");
 
 /* Sample input
 *s
@@ -1935,84 +1913,81 @@ This position is CHINOOK_WIN
 **
 */
 
-        for (; ;)
-        {
-                printf("*");
-                scanf("%c", &cmd);
+    for (;;) {
+        printf ("*");
+        scanf ("%c", &cmd);
 
-                switch(cmd)
-                {
-                    case 'b':
-                        /* Display the board */
-                        Display();
-                        break;
+        switch (cmd) {
+        case 'b':
+            /* Display the board */
+            Display ();
+            break;
 
-                    case 'B':
-                        /* Switch turn to BLACK. */
-                        Turn = BLACK;
-                        break;
+        case 'B':
+            /* Switch turn to BLACK. */
+            Turn = BLACK;
+            break;
 
-                    case 'e':
-                        /* Print hexadecimal representation of board */
-                        printf("%8x %8x %8x\n", Locbv[WHITE],
-                                  Locbv[BLACK], Locbv[KINGS]);
-                        break;
+        case 'e':
+            /* Print hexadecimal representation of board */
+            printf ("%8x %8x %8x\n", Locbv[WHITE],
+                    Locbv[BLACK], Locbv[KINGS]);
+            break;
 
-                    case 'E':
-                        /* Setup board from a hexadecimal representation */
-                        scanf("%x %x %x", &Locbv[WHITE],
-                                &Locbv[BLACK], &Locbv[KINGS]);
-                        Display();
-                        break;
+        case 'E':
+            /* Setup board from a hexadecimal representation */
+            scanf ("%x %x %x", &Locbv[WHITE], &Locbv[BLACK], &Locbv[KINGS]);
+            Display ();
+            break;
 
-                    case 'q':
-                    case 'Q':
-                        /* Quit */
-                        return(0);
+        case 'q':
+        case 'Q':
+            /* Quit */
+            return (0);
 
-                   case 'R':
-                        /* Query the database */
-                        printf( "The program will not return the correct\n" );
-                        printf( "result if the position has a capture move\n" );
-                        printf( "pending, or if by switching the turn a\n" );
-                        printf( "capture move would now be legal\n" );
-                        score = (long) DBLookup();
-                        printf("This position is %s\n",
-                                (score == CHINOOK_WIN ) ? "CHINOOK_WIN " :
-                                (score == CHINOOK_LOSS) ? "CHINOOK_LOSS" :  
-                                (score == CHINOOK_TIE ) ? "DRAW" : "UNKNOWN"  );
-                        break;
+        case 'R':
+            /* Query the database */
+            printf ("The program will not return the correct\n");
+            printf ("result if the position has a capture move\n");
+            printf ("pending, or if by switching the turn a\n");
+            printf ("capture move would now be legal\n");
+            score = (long) DBLookup ();
+            printf ("This position is %s\n",
+                    (score == CHINOOK_WIN) ? "CHINOOK_WIN " :
+                    (score == CHINOOK_LOSS) ? "CHINOOK_LOSS" :
+                    (score == CHINOOK_TIE) ? "DRAW" : "UNKNOWN");
+            break;
 
-                    case 's':
-                        /* Setup a postion */
-                        Setup();
-                        break;
+        case 's':
+            /* Setup a postion */
+            Setup ();
+            break;
 
-                    case 'W':
-                        /* Switch turn to WHITE */
-                        Turn = WHITE;
-                        break;
+        case 'W':
+            /* Switch turn to WHITE */
+            Turn = WHITE;
+            break;
 
-                    case '\n':
-                    case '\t':
-                    case ' ':
-                        break;
+        case '\n':
+        case '\t':
+        case ' ':
+            break;
 
-                    default:
-                        printf("ERROR: illegal command %c\n", cmd);
-                        break;
-                }
+        default:
+            printf ("ERROR: illegal command %c\n", cmd);
+            break;
         }
-        return 0 ;
+    }
+    return 0;
 }
 #else
 
 uint32_t
-FlipNibbles(uint32_t v)
+FlipNibbles (uint32_t v)
 {
-    v = ((v & 0x11111111) << 3) | ((v&0x88888888) >> 3)
-	| ((v & 0x22222222) << 1) | ((v&0x44444444) >> 1) ;
-    return v ;
+    v = ((v & 0x11111111) << 3) | ((v & 0x88888888) >> 3)
+        | ((v & 0x22222222) << 1) | ((v & 0x44444444) >> 1);
+    return v;
 }
 
 /* Switching between my format and the chinook format isn't
@@ -2031,31 +2006,32 @@ FlipNibbles(uint32_t v)
  *     WHITE
  */
 
-int S[] = {7, 15, 23, 31, 3, 11, 19, 27,
-	   6, 14, 22, 30, 2, 10, 18, 26,
-	   5, 13, 21, 29, 1, 9, 17, 25,
-	   4, 12, 20, 28, 0, 8, 16, 24} ;
+int S[] = { 7, 15, 23, 31, 3, 11, 19, 27,
+    6, 14, 22, 30, 2, 10, 18, 26,
+    5, 13, 21, 29, 1, 9, 17, 25,
+    4, 12, 20, 28, 0, 8, 16, 24
+};
+
 uint32_t
-RemapBoard(uint32_t v)
+RemapBoard (uint32_t v)
 {
     uint32_t r = 0;
-    int i ;
-    for (i=0; i<32; i++)
-	if (v & (1<<i))
-	    r |= (1<<S[i]) ;
-    return r ;
+    int i;
+    for (i = 0; i < 32; i++)
+        if (v & (1 << i))
+            r |= (1 << S[i]);
+    return r;
 }
 
 int
-ChinookLookupAdapter(CheckerBoard *b, int color)
+ChinookLookupAdapter (CheckerBoard * b, int color)
 {
-    Turn = (color == COLOR_RED)?BLACK:WHITE ;
-    Locbv[WHITE] = RemapBoard(b->W) ;
-    Locbv[BLACK] = RemapBoard(b->R) ;
-    Locbv[KINGS] = RemapBoard(b->K) ;
+    Turn = (color == COLOR_RED) ? BLACK : WHITE;
+    Locbv[WHITE] = RemapBoard (b->W);
+    Locbv[BLACK] = RemapBoard (b->R);
+    Locbv[KINGS] = RemapBoard (b->K);
 
-    return DBLookup() ;
+    return DBLookup ();
 }
 
 #endif /* MILHOUSE */
-
