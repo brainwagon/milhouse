@@ -1,7 +1,20 @@
+
+/* I probably should shift to using C99 and include
+ * stdbool.h to use booleans, but this code is old
+ * and probably wouldn't significantly add to either
+ * legibility or maintainability.
+ */
+
+#ifndef FALSE   
+#define FALSE   (0)
+#endif /* FALSE */
+
+#ifndef TRUE
+#define TRUE    (1)
+#endif /* TRUE */
+
 #define COLOR_RED	(0)
 #define COLOR_WHITE	(1)
-
-#include "standard.h"
 
 #define 	MAXMOVES	(32)	
 #define 	MAXPLY		(100)
@@ -10,7 +23,7 @@ typedef unsigned int BitBoard ;
 
 typedef struct t_checkerboard {
 	BitBoard R, W, K ;	
-        ub8 hash ;
+        uint64_t hash ;
 } CheckerBoard ;
 
 #define TRANSPOSITION_EXACT	(0)
@@ -18,7 +31,7 @@ typedef struct t_checkerboard {
 #define TRANSPOSITION_BETA	(2)
 
 typedef struct t_transposition {
-	ub8 hash ;
+	uint64_t hash ;
 	int depth ;
 	int flags ;
 	int value ;
@@ -47,7 +60,7 @@ int generateredmoves(CheckerBoard *b, CheckerBoard *m, BitBoard v);
 int generatewhitemoves(CheckerBoard *b, CheckerBoard *m, BitBoard v);
 int generateredcaptures(CheckerBoard *b, CheckerBoard *m, BitBoard v);
 int generatewhitecaptures(CheckerBoard *b, CheckerBoard *m, BitBoard v);
-ub8 recomputeboardhash(CheckerBoard *b, int color);
+uint64_t recomputeboardhash(CheckerBoard *b, int color);
 
 #define MAX2(a,b)	((a)>(b)?(a):(b))
 #define MIN2(a,b)	((a)<(b)?(a):(b))

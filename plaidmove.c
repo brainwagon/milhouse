@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <unistd.h>
@@ -223,7 +224,7 @@ generatewhitecaptures(CheckerBoard *b, CheckerBoard *m, BitBoard v)
 }
 
 
-ub8
+uint64_t
 recomputeboardhash(CheckerBoard *b, int color)
 {
     unsigned long long h = 0LL ;
