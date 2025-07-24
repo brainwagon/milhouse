@@ -1,5 +1,5 @@
-SRC=milhouse.c plaidmove.c lookupa.c puzzle.c lookup8.c chinookdb.c postscript.c dblookup.c acf-openings.c
-OBJ=milhouse.o plaidmove.o lookupa.o puzzle.o lookup8.o chinookdb.o postscript.o dblookup.o acf-openings.o
+SRC=milhouse.c plaidmove.c puzzle.c chinookdb.c postscript.c dblookup.c acf-openings.c
+OBJ=milhouse.o plaidmove.o puzzle.o chinookdb.o postscript.o dblookup.o acf-openings.o
 HDR=dblookup.h lookup8.h lookupa.h milhouse.h standard.h acf-openings.h
 PYTHONSRC=capturegen.py index.py movegen.py plaid.py
 OSRC=pdnparse.y pdnlex.l
@@ -46,10 +46,8 @@ libbanner.so:	libbanner.c
 	gcc -Wall -fPIC -c libbanner.c
 	gcc -shared -o libbanner.so libbanner.o
 
-milhouse.o: milhouse.c lookupa.h standard.h milhouse.h Makefile
+milhouse.o: milhouse.c standard.h milhouse.h Makefile
 capture.o: capture.c milhouse.h
-lookupa.o: lookupa.c standard.h lookupa.h
 move.o: move.c milhouse.h
 puzzle.o: puzzle.c milhouse.h
-lookup8.o: lookup8.c standard.h
 plaidmove.o: plaidmove.c plaid.c

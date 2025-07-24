@@ -20,8 +20,6 @@
 
 #include <sqlite3.h>
 
-#include "lookupa.h"
-#include "lookup8.h"
 #include "milhouse.h"
 
 /*
@@ -284,7 +282,7 @@ int repcheck = 1 ;
  * zero. 
  */
 
-ub8 rephash[MAXPLY] ;
+uint64_t rephash[MAXPLY] ;
 int repcnt = 0 ;
 
 void
@@ -705,7 +703,7 @@ InitTranspositionTables(void)
 
 
 Transposition *
-GetTranspositionTable(ub8 hash, int depth) 
+GetTranspositionTable(uint64_t hash, int depth) 
 {
     int slot = (int) (hash & TRANSPOSITION_MASK) ;
     
@@ -727,7 +725,7 @@ GetTranspositionTable(ub8 hash, int depth)
 void
 StoreTranspositionTable(CheckerBoard *b, int color, int depth, CheckerBoard *best, int flags, int value)
 {
-    ub8 hash = b->hash ;
+    uint64_t hash = b->hash ;
     int slot = (int) (hash & TRANSPOSITION_MASK) ;
     Transposition *t ;
     BitBoard from, to ;
@@ -845,7 +843,7 @@ PrintSearchTotals(int depth)
 
 #ifdef USE_TRANSPOSITION_TABLES
 Transposition *
-FindTransposition(ub8 hash)
+FindTransposition(uint64_t hash)
 {
     int slot = (int) (hash & TRANSPOSITION_MASK) ;
     if (tier0[slot].hash == hash)
@@ -1717,8 +1715,8 @@ printversion()
 #ifdef USE_TRANSPOSITION_TABLES
     fprintf(stderr, "transposition table enabled.\n") ;
     fprintf(stderr, "... (%d/%d) entries, total size %lu Mb\n",
-	(ub4) TRANSPOSITION_SIZE, 
-	(ub4) TRANSPOSITION_SIZE, 
+	(uint32_t) TRANSPOSITION_SIZE, 
+	(uint32_t) TRANSPOSITION_SIZE, 
 	((sizeof(tier0)+sizeof(tier1))/(1024*1024))) ;
 #else
     fprintf(stderr, "transposition table disabled\n") ;
@@ -2216,7 +2214,7 @@ main(int argc, char *argv[])
     CheckerBoard b, child[MAXMOVES] ;
     BitBoard m ;
     int i, j, n, color ;
-    ub8 h1, h2, h3 ;
+    uint64_t h1, h2, h3 ;
     int failures = 0 ;
 
     for (i=0; i<1000000; i++) {
