@@ -3,7 +3,7 @@ OBJ=milhouse.o plaidmove.o puzzle.o chinookdb.o postscript.o dblookup.o acf-open
 HDR=dblookup.h lookup8.h lookupa.h milhouse.h standard.h acf-openings.h
 PYTHONSRC=capturegen.py index.py movegen.py plaid.py
 OSRC=pdnparse.y pdnlex.l
-CFLAGS=-O6 -Wall -fomit-frame-pointer -DRUNINTERACTIVE\
+CFLAGS=-O6 -Wall -fomit-frame-pointer \
 	-DMILHOUSE -D_GNU_SOURCE \
 	-DUSE_TRANSPOSITION_TABLES -DQUIESCENCE 
 
